@@ -1,0 +1,4 @@
+imagick:
+- resize: [200, 200]
+  suffix: -small
+  format: [jpg]

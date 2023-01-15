@@ -1,0 +1,12 @@
+{
+  "tasks": {
+    "start": "deno run --reload -A --watch=static/,routes/,static/ dev.ts",
+    "debug": "deno run --reload -A --inspect main.ts",
+    "serve": "deno run -A main.ts"
+  },
+  "importMap": "./import_map.json",
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "jsxImportSource": "preact"
+  }
+}
