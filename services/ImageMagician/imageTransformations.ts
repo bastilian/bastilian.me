@@ -1,37 +1,30 @@
-import {
-  MagickGeometry,
-} from "https://deno.land/x/imagemagick_deno@0.0.19/mod.ts";
+import { MagickGeometry } from "imagemagick";
 
-export const resize = (image, { size, height, width }) => {
+const getGeometry = ({ size, height, width }) => {
   const sizeOptions = size ? [size] : [
     width,
     height,
   ];
-  const sizingData = new MagickGeometry(...sizeOptions);
-  image.resize(sizingData);
+
+  return new MagickGeometry(...sizeOptions);
+};
+
+export const resize = (image, options) => {
+  image.resize(getGeometry(options));
 
   return image;
 };
 
-export const crop = (image, { size, height, width }) => {
-  const sizeOptions = size ? [size] : [
-    width,
-    height,
-  ];
-  const sizingData = new MagickGeometry(...sizeOptions);
-  image.crop(sizingData);
+export const crop = (image, options) => {
+  image.crop(getGeometry(options));
 
   return image;
 };
 
-export const thumbnail = (image, { size, height, width }) => {
-  const sizeOptions = size ? [size] : [
-    width,
-    height,
-  ];
-  const sizingData = new MagickGeometry(...sizeOptions);
-  image.resize(sizingData);
-  image.crop(sizingData);
+export const thumbnail = (image, options) => {
+  const sizingData = getGeometry(options);
+  image.resize(sizingData, options.gravity);
+  image.crop(sizingData, options.gravity);
 
   return image;
 };

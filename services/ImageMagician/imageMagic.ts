@@ -1,4 +1,4 @@
-import { ImageMagick, initializeImageMagick } from "image-magick/mod.ts";
+import { ImageMagick, initializeImageMagick } from "imagemagick";
 import imageTransformations from "./imageTransformations.ts";
 
 await initializeImageMagick();

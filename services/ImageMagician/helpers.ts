@@ -1,13 +1,30 @@
+import { Gravity } from "imagemagick";
 import { hash } from "../../utilities/helpers.ts";
 
-export const optionsFromParams = async (params) => {
+const getImageUrl = (params, host) => {
   const url = decodeURIComponent(params.get("image"));
+
+  if (url.match(/^http[s]?\:/)?.length > 0) {
+    return url;
+  } else {
+    return `${host}/${url}`;
+  }
+};
+
+export const optionsFromParams = async (params, host) => {
+  const url = getImageUrl(params, host);
   const imageId = await hash(url);
   const filePath = imageId;
+
   const height = params.get("height") || params.get("width");
   const width = params.get("width") || params.get("height");
   const size = params.get("size") && String(params.get("size"));
-  const gravity = params.get("gravity");
+  const gravity = params.get("gravity") &&
+    Gravity[
+    params.get("gravity")[0].toUpperCase() +
+    params.get("gravity").substring(1).toLowerCase()
+    ];
+
   const operation = params.get("operation") || "resize";
   const transform = size
     ? { size, operation, gravity }

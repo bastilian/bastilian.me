@@ -1,5 +1,5 @@
-import { ensureDir } from "https://deno.land/std@0.177.0/fs/mod.ts";
-import { join } from "path/mod.ts";
+import { ensureDir } from "fs";
+import { join } from "path";
 import {
   CACHE_STORAGE,
   ENABLE_IMAGE_CACHE,
@@ -10,7 +10,7 @@ import {
   S3_REGION,
   S3_SECRET_KEY,
 } from "../../_config.ts";
-import { S3Client } from "https://deno.land/x/s3_lite_client@0.3.0/mod.ts";
+import { S3Client } from "s3_lite_client";
 
 // LOCAL STORAGE
 const writeLocal = async (fileName, data) => {

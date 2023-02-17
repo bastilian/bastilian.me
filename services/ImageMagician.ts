@@ -1,4 +1,3 @@
-import { parseMediaType } from "https://deno.land/std@0.175.0/media_types/parse_media_type.ts";
 import { ENABLE_IMAGE_CACHE } from "../_config.ts";
 import { optionsFromParams } from "./ImageMagician/helpers.ts";
 import imageMagic from "./ImageMagician/imageMagic.ts";
@@ -19,7 +18,6 @@ const fetchAndCacheImage = async (filePath, url) => {
   if (!sourceRes.ok) {
     throw new Error("Error retrieving image from URL.");
   }
-
   const responseBuffer = await sourceRes.arrayBuffer();
   const imageBytes = new Uint8Array(responseBuffer);
 
@@ -47,8 +45,8 @@ const transformedImage = async (
   }
 };
 
-export const transformImageFromUrlParams = async (params) => {
-  const options = await optionsFromParams(params);
+export const transformImageFromUrlParams = async (params, host) => {
+  const options = await optionsFromParams(params, host);
   const image = await transformedImage(options);
 
   return { image, mediaType: "image/png" };
