@@ -1,8 +1,9 @@
 import { asset, Head } from "$fresh/runtime.ts";
 import Header from "./components/Header.tsx";
 import Footer from "./components/Footer.tsx";
+import { tw } from "twind";
 
-export default ({ children }) => (
+export default ({ children, ...props }) => (
   <html>
     <Head>
       <meta charSet="utf-8" />
@@ -12,13 +13,14 @@ export default ({ children }) => (
       <link rel="me" href="https://mastodon.social/@bastilian" />
     </Head>
     <body>
-      <div id="container">
-        <Header />
-        <section id="main">
+      <div id="container" className={tw("container mx-auto w-3/5 space-y-8")}>
+        <Header className={tw("w-full pt-8")} />
+
+        <div className={tw("w-full")}>
           {children}
-        </section>
-        <Footer />
-        <div class="cr cr-top cr-right cr-sticky cr-blue">alpha</div>
+        </div>
+
+        <Footer className={tw("w-full content-center text-center space-y-4")} />
       </div>
     </body>
   </html>

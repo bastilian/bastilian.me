@@ -1,5 +1,5 @@
-import { parseFeed } from "https://deno.land/x/rss/mod.ts";
-import { crypto, toHashString } from "crypto/mod.ts";
+import { parseFeed } from "rss";
+import { crypto, toHashString } from "crypto";
 
 export const youtubeVideoRegex = new RegExp(
   /^\https?\:\/\/?www\.youtube\.com|youtu\.?be\/([\-\_\w]+)\W/,

@@ -1,22 +1,35 @@
 import { asset } from "$fresh/runtime.ts";
+import { tw } from "twind";
 
-const Header = () => (
-  <div className="header-container">
-    <header className="vcard" itemScope itemType="http://schema.org/Person">
-      <div className="image">
+import Image from "../../Image.tsx";
+
+const Header = (props) => (
+  <header
+    {...props}
+  >
+    <div
+      className={tw("flex vcard")}
+      itemScope
+      itemType="http://schema.org/Person"
+    >
+      <div className={tw("flex-none mr-4 image")}>
         <a href="/">
-          <img
+          <Image
             alt="Sebastian Gräßl"
             src={asset("images/bastilian_sebastian_graessl.jpg")}
-            className="vcard-avatar"
+            className={tw("inline-block rounded-md vcard-avatar")}
             itemProp="image"
+            params={{
+              operation: "thumbnail",
+              size: "120x120",
+            }}
           />
         </a>
       </div>
-      <div className="main-info">
+      <div className={tw("flex-auto")}>
         <div className="vcard-names">
           <h1 className="vcard-fullname" itemProp="name">
-            <a href="./about">Sebastian Gräßl</a>
+            Sebastian Gräßl
           </h1>
           <span className="aka">
             aka.{" "}
@@ -27,9 +40,9 @@ const Header = () => (
         </div>
       </div>
 
-      <div className="social-accounts">
+      <div className={tw("social-accounts")}>
         <ul>
-          <li>
+          <li className={tw("inline-block ml-2")}>
             <a rel="me" href="https://soundcloud.com/bastilian">
               <i class="fa fa-soundcloud"></i>
               <span className="social-link">
@@ -37,7 +50,7 @@ const Header = () => (
               </span>
             </a>
           </li>
-          <li>
+          <li className={tw("inline-block ml-2")}>
             <a rel="me" href="https://mastodon.social/@bastilian">
               <i class="fa fa-mastodon"></i>{" "}
               <span className="social-link">
@@ -45,7 +58,7 @@ const Header = () => (
               </span>
             </a>
           </li>
-          <li>
+          <li className={tw("inline-block ml-2")}>
             <a rel="me" href="https://github.com/bastilian">
               <i class="fa fa-github"></i>{" "}
               <span className="social-link">https://github.com/bastilian</span>
@@ -53,8 +66,8 @@ const Header = () => (
           </li>
         </ul>
       </div>
-    </header>
-  </div>
+    </div>
+  </header>
 );
 
 export default Header;

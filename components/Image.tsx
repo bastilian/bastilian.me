@@ -2,6 +2,7 @@ const Image = (
   {
     src,
     params,
+    ...props
   },
 ) => {
   const imageParams = new URLSearchParams();
@@ -12,13 +13,12 @@ const Image = (
   });
 
   return src && (
-    <span className="activity-post-image">
-      <img
-        src={`/api/image/${
-          parseInt(Date.now() + (Math.random() * 100000))
-        }.png?${imageParams.toString()}`}
-      />
-    </span>
+    <img
+      src={`/api/image/${
+        parseInt(Date.now() + (Math.random() * 100000))
+      }.png?${imageParams.toString()}`}
+      {...props}
+    />
   );
 };
 

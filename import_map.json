@@ -1,14 +1,22 @@
 {
   "imports": {
-    "$fresh/": "https://deno.land/x/fresh/",
-    "crypto/": "https://deno.land/std/crypto/",
-    "path/": "https://deno.land/std/path/",
-    "image-magick/": "https://deno.land/x/imagemagick_deno/",
-    "sass/": "https://deno.land/x/denosass/",
+    "$fresh/": "https://deno.land/x/fresh@1.1.3/",
+    "crypto": "https://deno.land/std/crypto/mod.ts",
+    "escape": "https://deno.land/x/escape/mod.ts",
+    "deno_dom": "https://deno.land/x/deno_dom/deno-dom-wasm.ts",
+    "datetime": "https://deno.land/std/datetime/format.ts",
+    "s3_lite_client": "https://deno.land/x/s3_lite_client/mod.ts",
+    "rss": "https://deno.land/x/rss/mod.ts",
+    "fs": "https://deno.land/std/fs/mod.ts",
+    "path": "https://deno.land/std/path/mod.ts",
+    "imagemagick": "https://deno.land/x/imagemagick_deno/mod.ts",
+    "parse_media_type": "https://deno.land/std/media_types/parse_media_type.ts",
     "preact": "https://esm.sh/preact@10.11.0",
     "preact/": "https://esm.sh/preact@10.11.0/",
     "preact-render-to-string": "https://esm.sh/*preact-render-to-string@5.2.4",
     "@preact/signals": "https://esm.sh/*@preact/signals@1.0.3",
-    "@preact/signals-core": "https://esm.sh/*@preact/signals-core@1.0.1"
+    "@preact/signals-core": "https://esm.sh/*@preact/signals-core@1.0.1",
+    "twind": "https://esm.sh/twind@0.16.17",
+    "twind/": "https://esm.sh/twind@0.16.17/"
   }
 }
