@@ -48,9 +48,10 @@ export const fetchFeed = async (url: string) => {
 
 export default async (url) => {
   const feed = await fetchFeed(url);
+  const entries = await Promise.all(feed.entries.map(appendOpenGraphData));
 
   return {
     ...feed,
-    entries: await Promise.all(feed.entries.map(appendOpenGraphData)),
+    entries,
   };
 };
