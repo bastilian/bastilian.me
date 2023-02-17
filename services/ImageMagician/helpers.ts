@@ -3,11 +3,12 @@ import { hash } from "../../utilities/helpers.ts";
 
 const getImageUrl = (params, host) => {
   const url = decodeURIComponent(params.get("image"));
+  const hostUrl = new URL(host);
 
   if (url.match(/^http[s]?\:/)?.length > 0) {
     return url;
   } else {
-    return `${host}/${url}`;
+    return `${hostUrl.href}${url}`;
   }
 };
 
@@ -21,8 +22,8 @@ export const optionsFromParams = async (params, host) => {
   const size = params.get("size") && String(params.get("size"));
   const gravity = params.get("gravity") &&
     Gravity[
-    params.get("gravity")[0].toUpperCase() +
-    params.get("gravity").substring(1).toLowerCase()
+      params.get("gravity")[0].toUpperCase() +
+      params.get("gravity").substring(1).toLowerCase()
     ];
 
   const operation = params.get("operation") || "resize";

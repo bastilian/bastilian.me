@@ -47,6 +47,7 @@ const transformedImage = async (
 
 export const transformImageFromUrlParams = async (params, host) => {
   const options = await optionsFromParams(params, host);
+  console.log(options);
   const image = await transformedImage(options);
 
   return { image, mediaType: "image/png" };
