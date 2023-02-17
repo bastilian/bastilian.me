@@ -5,8 +5,11 @@ export const handler: Handlers = {
   async GET(req) {
     try {
       const reqURL = new URL(req.url);
+
       const { image, mediaType } = await transformImageFromUrlParams(
         reqURL.searchParams,
+        `${reqURL.protocol}//${reqURL.hostname}${reqURL.port ? `:${reqURL.port}` : ``
+        }`,
       );
 
       if (image.byteLength > 0) {
