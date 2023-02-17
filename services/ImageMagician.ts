@@ -22,14 +22,16 @@ const fetchAndCacheImage = async (filePath, url) => {
   }
   const responseBuffer = await sourceRes.arrayBuffer();
   const imageBytes = new Uint8Array(responseBuffer);
-
+  log("Caching image to:", filePath);
   return await cacheImage(imageBytes, filePath);
 };
 
 const chachedOrFetchedImage = async (filePath, url) => {
   try {
+    log("Trying to read cached original image:", filePath);
     return await storage.readFile(filePath);
   } catch {
+    log("Fatching image fresh:", url);
     return await fetchAndCacheImage(filePath, url);
   }
 };
@@ -38,9 +40,10 @@ const transformedImage = async (
   { filePath, url, transforms, targetFilePath },
 ) => {
   try {
-    log("Trying to read from storage.");
+    log("Trying to read from storage:", targetFilePath);
     return await storage.readFile(targetFilePath);
   } catch {
+    log("Transforming image fresh.");
     return await cacheImage(
       await imageMagic(await chachedOrFetchedImage(filePath, url), transforms),
       targetFilePath,
