@@ -1,3 +1,4 @@
+import { log } from "../../utilities/helpers.ts";
 import { ensureDir } from "fs";
 import { join } from "path";
 import {
@@ -26,6 +27,7 @@ const readLocal = async (fileName) => {
 };
 
 const localFileStore = async () => {
+  log("Using local storage");
   if (ENABLE_IMAGE_CACHE) {
     await ensureDir(IMAGE_CACHE_DIR);
   }
@@ -48,6 +50,8 @@ const readCache = (cacheStore) => async (fileName) => {
 };
 
 const cacheApiStore = async () => {
+  log("Using Cache API");
+
   const cacheStore = await caches.open("images");
 
   return {
@@ -58,6 +62,7 @@ const cacheApiStore = async () => {
 
 // S3 STORAGE
 const writeS3 = (s3client) => async (fileName, data) => {
+  log("Trying to write from S3");
   await s3client.putObject(fileName, data);
   return new Uint8Array(
     await (await s3client.getObject(fileName)).arrayBuffer(),
@@ -65,11 +70,13 @@ const writeS3 = (s3client) => async (fileName, data) => {
 };
 
 const readS3 = (s3client) => async (fileName) => {
+  log("Trying to read from S3");
   const res = await s3client.getObject(fileName);
   return new Uint8Array(await res.arrayBuffer());
 };
 
 const s3Store = () => {
+  log("Using S3", S3_HOST, S3_BUCKET);
   const host = new URL(S3_HOST);
   const s3client = new S3Client({
     endPoint: host.hostname,

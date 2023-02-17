@@ -20,3 +20,7 @@ export const hash = async (string: string) =>
       new TextEncoder().encode(string),
     ),
   ).slice(0, 10);
+
+export const log = (...args) => {
+  console.log(...args);
+};

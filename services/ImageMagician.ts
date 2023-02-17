@@ -1,3 +1,5 @@
+import { log } from "../utilities/helpers.ts";
+
 import { ENABLE_IMAGE_CACHE } from "../_config.ts";
 import { optionsFromParams } from "./ImageMagician/helpers.ts";
 import imageMagic from "./ImageMagician/imageMagic.ts";
@@ -36,6 +38,7 @@ const transformedImage = async (
   { filePath, url, transforms, targetFilePath },
 ) => {
   try {
+    log("Trying to read from storage.");
     return await storage.readFile(targetFilePath);
   } catch {
     return await cacheImage(
@@ -46,8 +49,9 @@ const transformedImage = async (
 };
 
 export const transformImageFromUrlParams = async (params, host) => {
+  log("Image Params:", params);
   const options = await optionsFromParams(params, host);
-  console.log(options);
+  log("Image Options:", options);
   const image = await transformedImage(options);
 
   return { image, mediaType: "image/png" };
