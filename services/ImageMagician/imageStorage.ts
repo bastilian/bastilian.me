@@ -59,7 +59,9 @@ const cacheApiStore = async () => {
 // S3 STORAGE
 const writeS3 = (s3client) => async (fileName, data) => {
   await s3client.putObject(fileName, data);
-  return new Uint8Array(await (await s3client.getObject(fileName)).arrayBuffer());
+  return new Uint8Array(
+    await (await s3client.getObject(fileName)).arrayBuffer(),
+  );
 };
 
 const readS3 = (s3client) => async (fileName) => {
@@ -78,10 +80,10 @@ const s3Store = () => {
     region: S3_REGION,
   });
 
-  return {
+  return Promise.resolve({
     readFile: readS3(s3client),
     writeFile: writeS3(s3client),
-  };
+  });
 };
 
 export default async () => {
