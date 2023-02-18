@@ -1,6 +1,6 @@
 import { parseFeed } from "rss";
 import { crypto, toHashString } from "crypto";
-import config from "../config.ts";
+import config from "../_config.ts";
 
 export const youtubeVideoRegex = new RegExp(
   /^\https?\:\/\/?www\.youtube\.com|youtu\.?be\/([\-\_\w]+)\W/,
