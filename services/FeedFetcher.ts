@@ -2,7 +2,7 @@ import { log } from "../utilities/helpers.ts";
 import { unescapeHtml } from "escape";
 import { parseFeed } from "rss";
 import { DOMParser, Element } from "deno_dom";
-import { retry } from "https://deno.land/std@0.177.0/async/mod.ts";
+import { delay, retry } from "https://deno.land/std@0.177.0/async/mod.ts";
 
 export const extractLastLink = (entryText) => {
   const allLinks = new DOMParser().parseFromString(
@@ -14,6 +14,7 @@ export const extractLastLink = (entryText) => {
 };
 
 const fetchMarkup = async (url) => {
+  log("Fetching", url);
   const res = await fetch(url);
   if (res.status === 429) {
     throw new Error("Too many requests");
@@ -27,18 +28,35 @@ const fetchMarkup = async (url) => {
   );
 };
 
-export const fetchOpenGraphMeta = async (url) => {
-  if (url) {
-    let retries = 0;
-    const ogTags = await retry(async () => {
+const fetchWithRetryAndDelay = async (url) => {
+  let retries = 0;
+  let ogTags;
+
+  try {
+    ogTags = await retry(async () => {
+      const delayPromise = delay(150 * retries);
+      await delayPromise;
       const markup = await fetchMarkup(url);
       retries++;
       return markup;
+    }, {
+      maxAttempts: 3,
+      maxTimeout: 6000,
     });
+  } catch (e) {
+    log("Error", e.message);
+  }
 
-    if (retries > 0) {
-      log("Retried", retries, "times");
-    }
+  if (retries > 0) {
+    log("Retried", retries, "times");
+  }
+
+  return ogTags;
+};
+
+export const fetchOpenGraphMeta = async (url) => {
+  if (url) {
+    const ogTags = await fetchWithRetryAndDelay(url);
 
     const og = (ogTags || []).map((
       entry,
