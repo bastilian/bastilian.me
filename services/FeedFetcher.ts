@@ -87,11 +87,11 @@ export const fetchFeed = async (url: string) => {
   }
 };
 
-export default async (url) => {
+export default async (url, numberOfEntries = 5) => {
   const feed = await fetchFeed(url);
   const entries = [];
 
-  for await (const entry of feed.entries) {
+  for await (const entry of feed.entries.slice(0, numberOfEntries)) {
     const newEntry = await appendOpenGraphData(entry);
     entries.push(newEntry);
   }
