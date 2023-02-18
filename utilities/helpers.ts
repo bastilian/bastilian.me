@@ -1,5 +1,6 @@
 import { parseFeed } from "rss";
 import { crypto, toHashString } from "crypto";
+import config from "../config.ts";
 
 export const youtubeVideoRegex = new RegExp(
   /^\https?\:\/\/?www\.youtube\.com|youtu\.?be\/([\-\_\w]+)\W/,
@@ -22,5 +23,5 @@ export const hash = async (string: string) =>
   ).slice(0, 10);
 
 export const log = (...args) => {
-  console.log(...args);
+  if (config.debug) console.log(...args);
 };

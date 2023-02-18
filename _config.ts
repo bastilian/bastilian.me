@@ -37,6 +37,7 @@ const getStorage = () => {
 };
 
 export default {
+  debug: Deno.env.get("DEBUG"),
   supabase: {
     url: Deno.env.get("SUPABASE"),
     key: Deno.env.get("SUPABASE_KEY"),
