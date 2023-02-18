@@ -13,7 +13,7 @@ const getImageUrl = (params, host) => {
 };
 
 export const optionsFromParams = async (params, host) => {
-  const url = getImageUrl(params, host);
+  const url = decodeURIComponent(params.get("image")); ///getImageUrl(params, host);
   const imageId = await hash(url);
   const filePath = imageId;
 

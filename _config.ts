@@ -1,24 +1,61 @@
-import "https://deno.land/std/dotenv/load.ts";
-
+import "dotenv:load";
 import { dirname, fromFileUrl, join } from "path";
 
-// TODO this is horrid.
+const getStorage = () => {
+  if (Deno.env.get("LOCAL_STORAGE_DIR")) {
+    return {
+      local: {
+        directory: join(
+          dirname(fromFileUrl(import.meta.url)),
+          Deno.env.get("LOCAL_STORAGE_DIR") || "storage",
+        ),
+      },
+    };
+  }
 
-export const MASTODON_FEED = Deno.env.get("MASTODON_FEED");
-export const PIXELFED_FEED = Deno.env.get("PIXELFED_FEED");
+  if (Deno.env.get("S3_HOST")) {
+    return {
+      s3: {
+        host: Deno.env.get("S3_HOST") || "http://localhost:9000",
+        bucket: Deno.env.get("S3_BUCKET") || "dev-images",
+        region: Deno.env.get("S3_REGION") || "dev-region",
+        accessKey: Deno.env.get("S3_ACCESS_KEY"),
+        secretKey: Deno.env.get("S3_SECRET_KEY"),
+      },
+    };
+  }
 
-export const ENABLE_IMAGE_CACHE =
-  (Deno.env.get("ENABLE_IMAGE_CACHE") || "false") === "true";
-export const CACHE_STORAGE = Deno.env.get("CACHE_STORE") || "local";
+  if (Deno.env.get("CACHE_STORE")) {
+    return {
+      cache: {
+        namespace: "cacheStore",
+      },
+    };
+  }
 
-export const IMAGE_CACHE_DIR = Deno.env.get("IMAGE_CACHE_DIR") ||
-  join(dirname(fromFileUrl(import.meta.url)), ".image-cache");
+  return {};
+};
 
-export const S3_HOST = Deno.env.get("S3_HOST") || "http://localhost:9000";
-export const S3_BUCKET = Deno.env.get("S3_BUCKET") || "dev-images";
-export const S3_REGION = Deno.env.get("S3_REGION") || "dev-region";
-export const S3_ACCESS_KEY = Deno.env.get("S3_ACCESS_KEY");
-export const S3_SECRET_KEY = Deno.env.get("S3_SECRET_KEY");
-
-export const SUPABASE = Deno.env.get("SUPABASE");
-export const SUPABASE_KEY = Deno.env.get("SUPABASE_KEY");
+export default {
+  supabase: {
+    url: Deno.env.get("SUPABASE"),
+    key: Deno.env.get("SUPABASE_KEY"),
+  },
+  feeds: {
+    mastodon: Deno.env.get("MASTODON_FEED"),
+    pixelfed: Deno.env.get("PIXELFED_FEED"),
+  },
+  storage: {
+    ...getStorage(),
+  },
+  staticDirectory: join(
+    dirname(fromFileUrl(import.meta.url)),
+    "static",
+  ),
+  cache: {
+    images: Deno.env.get("CACHE_IMAGES") &&
+      Deno.env.get("CACHE_IMAGES") === "true",
+    feeds: Deno.env.get("CACHE_FEEDS") &&
+      Deno.env.get("CACHE_FEEDS") === "true",
+  },
+};

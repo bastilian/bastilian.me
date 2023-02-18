@@ -1,6 +1,7 @@
 {
   "imports": {
     "$fresh/": "https://deno.land/x/fresh@1.1.3/",
+    "dotenv:load": "https://deno.land/std/dotenv/load.ts",
     "crypto": "https://deno.land/std/crypto/mod.ts",
     "escape": "https://deno.land/x/escape/mod.ts",
     "deno_dom": "https://deno.land/x/deno_dom/deno-dom-wasm.ts",

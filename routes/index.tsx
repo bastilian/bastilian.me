@@ -1,14 +1,14 @@
 import ActivityFeed from "../components/ActivityFeed/index.tsx";
 import Photos from "../components/Photos/index.tsx";
 import Layout from "../components/layouts/Layout.tsx";
-import { MASTODON_FEED, PIXELFED_FEED } from "../_config.ts";
+import config from "../_config.ts";
 import fetchFeed from "../services/FeedFetcher.ts";
 import { tw } from "twind";
 
 export const handler = {
   async GET(_, ctx) {
-    const mastodon = await fetchFeed(MASTODON_FEED);
-    const pixelfed = await fetchFeed(PIXELFED_FEED);
+    const mastodon = await fetchFeed(config.feeds.mastodon);
+    const pixelfed = await fetchFeed(config.feeds.pixelfed);
 
     return ctx.render({ mastodon, pixelfed });
   },

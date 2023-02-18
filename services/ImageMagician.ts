@@ -1,38 +1,50 @@
-import { log } from "../utilities/helpers.ts";
+import { join } from "path";
 
-import { ENABLE_IMAGE_CACHE } from "../_config.ts";
+import config from "../_config.ts";
+import { log } from "../utilities/helpers.ts";
 import { optionsFromParams } from "./ImageMagician/helpers.ts";
 import imageMagic from "./ImageMagician/imageMagic.ts";
-import imageStorage from "./ImageMagician/imageStorage.ts";
+import storage from "./Storage.ts";
 
-const storage = await imageStorage();
+const store = await storage();
 
 const cacheImage = async (image, targetFilePath) => {
-  if (ENABLE_IMAGE_CACHE) {
-    return await storage.writeFile(targetFilePath, image);
+  if (config.cache.images) {
+    log("Caching image:", targetFilePath);
+    return await store.writeFile(targetFilePath, image);
   } else {
     return await image;
   }
 };
 
-const fetchAndCacheImage = async (filePath, url) => {
+const fetchRemoteImage = async (url) => {
   const sourceRes = await fetch(url);
   if (!sourceRes.ok) {
     throw new Error("Error retrieving image from URL.");
   }
-  const responseBuffer = await sourceRes.arrayBuffer();
-  const imageBytes = new Uint8Array(responseBuffer);
-  log("Caching image to:", filePath);
-  return await cacheImage(imageBytes, filePath);
+  return new Uint8Array(await sourceRes.arrayBuffer());
+};
+
+const getAndCacheImage = async (filePath, url) => {
+  if (url.match(/^http[s]?\:/)?.length > 0) {
+    log("Fetching image from ", url);
+    const image = await fetchRemoteImage(url);
+    return await cacheImage(image, filePath);
+  } else {
+    const imagePath = join(config.staticDirectory, url);
+    log("Reading image from ", imagePath);
+    const image = await Deno.readFile(imagePath);
+    return await cacheImage(image, filePath);
+  }
 };
 
 const chachedOrFetchedImage = async (filePath, url) => {
   try {
     log("Trying to read cached original image:", filePath);
-    return await storage.readFile(filePath);
+    return await store.readFile(filePath);
   } catch {
-    log("Fatching image fresh:", url);
-    return await fetchAndCacheImage(filePath, url);
+    log("Getting image fresh:", url);
+    return await getAndCacheImage(filePath, url);
   }
 };
 
@@ -40,8 +52,8 @@ const transformedImage = async (
   { filePath, url, transforms, targetFilePath },
 ) => {
   try {
-    log("Trying to read from storage:", targetFilePath);
-    return await storage.readFile(targetFilePath);
+    log("Trying to read from store:", targetFilePath);
+    return await store.readFile(targetFilePath);
   } catch {
     log("Transforming image fresh.");
     return await cacheImage(

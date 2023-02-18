@@ -1,21 +1,22 @@
-import { SUPABASE, SUPABASE_KEY } from "../_config.ts";
+import config from "../_config.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
 const supabaseClient = () => {
-  if (SUPABASE && SUPABASE_KEY) {
+  if (config.supabase?.url && config.supabase?.key) {
     return createClient(
-      SUPABASE,
-      SUPABASE_KEY,
+      config.supabase.url,
+      config.supabase.key,
     );
   }
 };
 
-export const handler = (req, ctx) => {
-  const supabase = supabaseClient();
+export const handler = (_, ctx) => {
+  const supabaseClientInstance = supabaseClient();
 
   ctx.state = {
     ...ctx.state,
-    supabase,
+    ...supabaseClientInstance ? { supabase: supabaseClientInstance } : {},
   };
+
   return ctx.next();
 };
