@@ -29,28 +29,16 @@ const fetchMarkup = async (url) => {
 };
 
 const fetchWithRetryAndDelay = async (url) => {
-  let retries = 0;
-  let ogTags;
-
   try {
-    ogTags = await retry(async () => {
-      const delayPromise = delay(300);
-      await delayPromise;
-      const markup = await fetchMarkup(url);
-      retries++;
-      return markup;
+    const ogTags = await retry(async () => {
+      return await fetchMarkup(url);
     }, {
-      maxAttempts: 3,
+      maxAttempts: 2,
     });
+    return ogTags;
   } catch (e) {
     log("Error", e.message);
   }
-
-  if (retries > 0) {
-    log("Retried", retries, "times");
-  }
-
-  return ogTags;
 };
 
 export const fetchOpenGraphMeta = async (url) => {
@@ -91,9 +79,9 @@ export default async (url, numberOfEntries = 5) => {
   const entries = [];
 
   for await (const entry of feed.entries.slice(0, numberOfEntries)) {
+    const delayedPromise = delay(300);
+    const result = await delayedPromise;
     const newEntry = await appendOpenGraphData(entry);
-    const delayPromise = delay(300);
-    await delayPromise;
     entries.push(newEntry);
   }
 
