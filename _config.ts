@@ -56,8 +56,8 @@ export default {
   ),
   cache: {
     images: Deno.env.get("CACHE_IMAGES") &&
-      Deno.env.get("CACHE_IMAGES") === "true",
+        Deno.env.get("CACHE_IMAGES") === "true" || true,
     feeds: Deno.env.get("CACHE_FEEDS") &&
-      Deno.env.get("CACHE_FEEDS") === "true",
+        Deno.env.get("CACHE_FEEDS") === "true" || true,
   },
 };

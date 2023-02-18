@@ -3,27 +3,30 @@ import { S3Client } from "s3_lite_client";
 import { join } from "path";
 
 const read = (s3client, path) => async (fileName) => {
+  const filePath = join(path, fileName);
+
   try {
-    const filePath = join(path, fileName);
     log("Reading from S3", filePath);
-    const res = await s3client.getObject(fileName);
-    return new Uint8Array(await res.arrayBuffer());
+    const res = await s3client.getObject(filePath);
+    const buffer = await res.arrayBuffer();
+    return new Uint8Array(buffer);
   } catch (e) {
-    log("Error reading S3", e.message, fileName);
+    log("Error reading S3", e.message, filePath);
     return;
   }
 };
 
 const write = (s3client, path) => async (fileName, data) => {
+  const filePath = join(path, fileName);
+
   try {
-    const filePath = join(path, fileName);
     log("Writing to S3", filePath);
     const put = await s3client.putObject(filePath, data);
     const get = await read(s3client, "")(filePath);
 
     return put && get;
   } catch (e) {
-    log("Error writting S3", e.message, fileName);
+    log("Error writting S3", e.message, filePath);
     return;
   }
 };

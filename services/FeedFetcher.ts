@@ -1,10 +1,37 @@
-import { log } from "../utilities/helpers.ts";
 import { unescapeHtml } from "escape";
 import { parseFeed } from "rss";
-import { DOMParser, Element } from "deno_dom";
-import { delay, retry } from "https://deno.land/std@0.177.0/async/mod.ts";
+import { DOMParser } from "deno_dom";
+import config from "../_config.ts";
+import { hash, log } from "../utilities/helpers.ts";
+import storage from "./Storage.ts";
 
+const store = await storage();
+const feedCache = store.inPath("feeds");
+const openGraphCache = store.inPath("opengraph");
 
+const fetchCached = async (fetchFunc, url, store, cachKey = "") => {
+  if (config.cache.feeds) {
+    const hashedUrl = await hash(url + cachKey);
+    const cachedResult = await store.read(hashedUrl);
+
+    if (cachedResult) {
+      log("Returning cached result");
+      return new TextDecoder().decode(cachedResult);
+    } else {
+      log("Fetching and caching result");
+      const result = await fetchFunc(url);
+      if (result) {
+        const cachedResult = await store.write(hashedUrl, result);
+        return new TextDecoder().decode(cachedResult);
+      } else {
+        log("Empty result not cached");
+        return;
+      }
+    }
+  } else {
+    return await fetchFunc(url);
+  }
+};
 
 export const extractLastLink = (entryText) => {
   const allLinks = new DOMParser().parseFromString(
@@ -17,42 +44,34 @@ export const extractLastLink = (entryText) => {
 
 const fetchMarkup = async (url) => {
   log("Fetching", url);
-  const res = await fetch(url);
-  if (res.status === 429) {
-    throw new Error("Too many requests");
-  }
+  const res = await fetchCached(
+    async (url) => {
+      const res = await fetch(url);
+      if (res.status === 200) {
+        return await res.text();
+      }
+    },
+    url,
+    openGraphCache,
+  );
 
-  return new DOMParser().parseFromString(
-    await res.text(),
+  return res && new DOMParser().parseFromString(
+    res,
     "text/html",
   )?.getElementsByTagName("meta").filter((node) =>
     node.getAttribute("property")?.startsWith("og")
   );
 };
 
-const fetchWithRetryAndDelay = async (url) => {
-  try {
-    const ogTags = await retry(async () => {
-      return await fetchMarkup(url);
-    }, {
-      maxAttempts: 2,
-    });
-    return ogTags;
-  } catch (e) {
-    log("Error", e.message);
-  }
-};
-
 export const fetchOpenGraphMeta = async (url) => {
   if (url) {
-    const ogTags = await fetchWithRetryAndDelay(url);
+    const ogTags = await fetchMarkup(url);
 
     const og = (ogTags || []).map((
       entry,
     ) => [entry.getAttribute("property"), entry.getAttribute("content")])
       .reduce((og, [property, value]) => ({ ...og, [property]: value }), {});
 
-    log("Open Graph:", og);
     return Object.keys(og).length > 0 && og;
   }
 };
@@ -79,14 +98,22 @@ export const fetchFeed = async (url: string) => {
 };
 
 export default async (url, numberOfEntries = 5) => {
-  const fetchedFeed = await fetchFeed(url);
+  const cacheKey = (() => {
+    const currentDateTime = new Date(Date.now());
+
+    return currentDateTime.getDay() + "-" + currentDateTime.getHours();
+  })();
+  const fetchedFeed = await fetchCached(
+    fetchFeed,
+    url,
+    feedCache,
+    cacheKey,
+  );
   const feed = fetchedFeed && await parseFeed(fetchedFeed);
 
   const entries = await Promise.all(
     (feed || []).entries.slice(0, numberOfEntries).map(async (entry) => {
-      await delay(1000);
       const newEntry = await appendOpenGraphData(entry);
-      log("PERF NOW", performance.now());
       return newEntry;
     }),
   );
