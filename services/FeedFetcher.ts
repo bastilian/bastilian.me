@@ -34,14 +34,13 @@ const fetchWithRetryAndDelay = async (url) => {
 
   try {
     ogTags = await retry(async () => {
-      const delayPromise = delay(150 * retries);
+      const delayPromise = delay(300);
       await delayPromise;
       const markup = await fetchMarkup(url);
       retries++;
       return markup;
     }, {
       maxAttempts: 3,
-      maxTimeout: 6000,
     });
   } catch (e) {
     log("Error", e.message);
@@ -93,6 +92,8 @@ export default async (url, numberOfEntries = 5) => {
 
   for await (const entry of feed.entries.slice(0, numberOfEntries)) {
     const newEntry = await appendOpenGraphData(entry);
+    const delayPromise = delay(300);
+    await delayPromise;
     entries.push(newEntry);
   }
 
