@@ -1,5 +1,5 @@
 import config from "../_config.ts";
-import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+import { createClient } from "supabase";
 
 const supabaseClient = () => {
   if (config.supabase?.url && config.supabase?.key) {

@@ -10,10 +10,6 @@ import manifest from "./fresh.gen.ts";
 import twindPlugin from "$fresh/plugins/twind.ts";
 import twindConfig from "./twind.config.ts";
 
-import config from "./_config.ts";
-
-console.log("Starting with config:", config);
-
 await start(manifest, {
   plugins: [twindPlugin(twindConfig)],
 });

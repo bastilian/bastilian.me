@@ -17,8 +17,12 @@ export const handler = {
 export default function Home({ data }) {
   return (
     <Layout>
-      <div className={tw("grid md:grid-cols-2 sm:grid-cols-1 gap-4")}>
-        <div>
+      <div
+        className={tw(
+          "grid md:grid-cols-2 sm:grid-cols-1 gap-4 place-content-start",
+        )}
+      >
+        <div className={tw("max-w-md")}>
           <ActivityFeed feed={data.mastodon} />
         </div>
         <div className={tw("photos space-y-4")}>

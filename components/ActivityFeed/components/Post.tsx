@@ -1,7 +1,7 @@
 import { unescapeHtml } from "escape";
 import { format } from "datetime";
 import { tw } from "twind";
-import { DOMParser, Element } from "deno_dom";
+import { DOMParser } from "deno_dom";
 
 import Image from "../../Image.tsx";
 import OpenGraph from "./OpenGraph.tsx";
