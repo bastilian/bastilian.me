@@ -2,6 +2,7 @@ import { log } from "../utilities/helpers.ts";
 import { unescapeHtml } from "escape";
 import { parseFeed } from "rss";
 import { DOMParser, Element } from "deno_dom";
+import { retry } from "https://deno.land/std@0.177.0/async/mod.ts";
 
 export const extractLastLink = (entryText) => {
   const allLinks = new DOMParser().parseFromString(
@@ -12,23 +13,40 @@ export const extractLastLink = (entryText) => {
   return allLinks[allLinks.length - 1]?.getAttribute("href");
 };
 
+const fetchMarkup = async (url) => {
+  const res = await fetch(url);
+  if (res.status === 429) {
+    throw new Error("Too many requests");
+  }
+
+  return new DOMParser().parseFromString(
+    await res.text(),
+    "text/html",
+  )?.getElementsByTagName("meta").filter((node) =>
+    node.getAttribute("property")?.startsWith("og")
+  );
+};
+
 export const fetchOpenGraphMeta = async (url) => {
   if (url) {
-    log("Fetching OpenGraph data:", url);
-    const res = await fetch(url);
-    log("Fetched", res.status, res.body);
-    const og = new DOMParser().parseFromString(
-      await res.text(),
-      "text/html",
-    )?.getElementsByTagName("meta").filter((node) =>
-      node.getAttribute("property")?.startsWith("og")
-    ).map((
+    let retries = 0;
+    const ogTags = await retry(async () => {
+      const markup = await fetchMarkup(url);
+      retries++;
+      return markup;
+    });
+
+    if (retries > 0) {
+      log("Retried", retries, "times");
+    }
+
+    const og = (ogTags || []).map((
       entry,
     ) => [entry.getAttribute("property"), entry.getAttribute("content")])
       .reduce((og, [property, value]) => ({ ...og, [property]: value }), {});
 
-    log("Open Graph", og);
-    return og;
+    log("Open Graph:", og);
+    return Object.keys(og).length > 0 && og;
   }
 };
 
