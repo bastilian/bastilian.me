@@ -3,6 +3,7 @@ import {
   initializeImageMagick,
   MagickGeometry,
 } from "imagemagick";
+import { log } from "../../utilities/helpers.ts";
 
 await initializeImageMagick();
 
@@ -41,18 +42,22 @@ const imageTransformations = {
   "thumbnail": thumbnail,
 };
 
-export default (imageBuffer, transforms = [], fileType = "PNG") =>
-  new Promise((resolve) => {
+export default (imageBuffer, transforms = [], fileType = "PNG") => {
+  return new Promise((resolve, reject) => {
     ImageMagick.read(
       imageBuffer,
       (image) => {
-        const transformedImage = transforms.reduce(
-          (image, { operation, ...options }) =>
-            imageTransformations[operation](image, options),
-          image,
-        );
+        let transformedImage = image;
+
+        for (const { operation, ...options } of transforms) {
+          transformedImage = imageTransformations[operation](
+            transformedImage,
+            options,
+          );
+        }
 
         transformedImage.write((data) => resolve(data), fileType);
       },
     );
   });
+};

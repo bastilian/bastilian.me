@@ -4,6 +4,8 @@ import { parseFeed } from "rss";
 import { DOMParser, Element } from "deno_dom";
 import { delay, retry } from "https://deno.land/std@0.177.0/async/mod.ts";
 
+
+
 export const extractLastLink = (entryText) => {
   const allLinks = new DOMParser().parseFromString(
     unescapeHtml(entryText).toString(),
@@ -68,22 +70,26 @@ const appendOpenGraphData = async (entry) => {
 export const fetchFeed = async (url: string) => {
   try {
     log("Fetching and parsing feed:", url);
-    return await parseFeed(await (await fetch(url)).text());
-  } catch {
-    return {};
+    const fetchedFeed = await fetch(url);
+    return await fetchedFeed.text();
+  } catch (e) {
+    log("Error fetching feed", e.message);
+    return;
   }
 };
 
 export default async (url, numberOfEntries = 5) => {
-  const feed = await fetchFeed(url);
-  const entries = [];
+  const fetchedFeed = await fetchFeed(url);
+  const feed = fetchedFeed && await parseFeed(fetchedFeed);
 
-  for await (const entry of feed.entries.slice(0, numberOfEntries)) {
-    const delayedPromise = delay(300);
-    const result = await delayedPromise;
-    const newEntry = await appendOpenGraphData(entry);
-    entries.push(newEntry);
-  }
+  const entries = await Promise.all(
+    (feed || []).entries.slice(0, numberOfEntries).map(async (entry) => {
+      await delay(1000);
+      const newEntry = await appendOpenGraphData(entry);
+      log("PERF NOW", performance.now());
+      return newEntry;
+    }),
+  );
 
   return {
     ...feed,

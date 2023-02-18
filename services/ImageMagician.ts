@@ -14,14 +14,16 @@ const cacheImage = async (image, targetFilePath) => {
     log("Caching image:", targetFilePath);
     return await imageCache.write(targetFilePath, image);
   } else {
+    log("NOT Caching image:", targetFilePath);
+
     return image;
   }
 };
 
-const transformImage = async (image, transforms) => (await ({
+const transformImage = ({
   "im": imageMagick,
   "is": imageScript,
-})[config.imageprocessor](image, transforms));
+})[config.imageprocessor];
 
 const fetchRemoteImage = async (url) => {
   const sourceRes = await fetch(url);
@@ -53,9 +55,12 @@ const transformedImage = async (
     await getAndCacheImage(filePath, url);
   const transformedCachedImage = await imageCache.read(targetFilePath);
   const imageCached = transformedCachedImage ||
-    await transformImage(originalimage, transforms);
+    await cacheImage(
+      await transformImage?.(originalimage, transforms),
+      targetFilePath,
+    );
 
-  return await cacheImage(imageCached, targetFilePath);
+  return imageCached;
 };
 
 export const transformImageFromUrlParams = async (params, host) => {

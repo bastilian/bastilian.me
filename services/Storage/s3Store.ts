@@ -9,7 +9,7 @@ const read = (s3client, path) => async (fileName) => {
     const res = await s3client.getObject(fileName);
     return new Uint8Array(await res.arrayBuffer());
   } catch (e) {
-    log("Error reading S3", e);
+    log("Error reading S3", e.message, fileName);
     return;
   }
 };
@@ -23,7 +23,7 @@ const write = (s3client, path) => async (fileName, data) => {
 
     return put && get;
   } catch (e) {
-    log("Error writting S3", e);
+    log("Error writting S3", e.message, fileName);
     return;
   }
 };
