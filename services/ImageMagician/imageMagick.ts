@@ -1,4 +1,10 @@
-import { MagickGeometry } from "imagemagick";
+import {
+  ImageMagick,
+  initializeImageMagick,
+  MagickGeometry,
+} from "imagemagick";
+
+await initializeImageMagick();
 
 const getGeometry = ({ size, height, width }) => {
   const sizeOptions = size ? [size] : [
@@ -29,8 +35,24 @@ export const thumbnail = (image, options) => {
   return image;
 };
 
-export default {
+const imageTransformations = {
   "resize": resize,
   "crop": crop,
   "thumbnail": thumbnail,
 };
+
+export default (imageBuffer, transforms = [], fileType = "PNG") =>
+  new Promise((resolve) => {
+    ImageMagick.read(
+      imageBuffer,
+      (image) => {
+        const transformedImage = transforms.reduce(
+          (image, { operation, ...options }) =>
+            imageTransformations[operation](image, options),
+          image,
+        );
+
+        transformedImage.write((data) => resolve(data), fileType);
+      },
+    );
+  });

@@ -46,6 +46,7 @@ export default {
     mastodon: Deno.env.get("MASTODON_FEED"),
     pixelfed: Deno.env.get("PIXELFED_FEED"),
   },
+  imageprocessor: Deno.env.get("IMAGE_PROCESSOR") || "is",
   storage: {
     ...getStorage(),
   },
