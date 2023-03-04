@@ -27,7 +27,7 @@ const Header = (props) => (
         </a>
       </div>
       <div className={tw("flex-auto")}>
-        <div className="vcard-names">
+        <p className="vcard-names">
           <h1 className="vcard-fullname" itemProp="name">
             Sebastian Gräßl
           </h1>
@@ -37,34 +37,29 @@ const Header = (props) => (
               bastilian
             </span>
           </span>
-        </div>
-      </div>
+        </p>
 
-      <div className={tw("social-accounts")}>
-        <ul>
-          <li className={tw("inline-block ml-2")}>
-            <a rel="me" href="https://soundcloud.com/bastilian">
-              <i class="fa fa-soundcloud"></i>
-              <span className="social-link">
-                https://soundcloud.com/bastilian
-              </span>
-            </a>
-          </li>
-          <li className={tw("inline-block ml-2")}>
-            <a rel="me" href="https://mastodon.social/@bastilian">
-              <i class="fa fa-mastodon"></i>{" "}
-              <span className="social-link">
-                https://mastodon.social/@bastilian
-              </span>
-            </a>
-          </li>
-          <li className={tw("inline-block ml-2")}>
-            <a rel="me" href="https://github.com/bastilian">
-              <i class="fa fa-github"></i>{" "}
-              <span className="social-link">https://github.com/bastilian</span>
-            </a>
-          </li>
-        </ul>
+        <div className={tw("social-accounts")}>
+          <ul>
+            <li className={tw("inline-block mr-2")}>
+              <a rel="me" href="https://github.com/bastilian">
+                <i class="fa fa-github"></i>{" "}
+                <span className="social-link">
+                  https://github.com/bastilian
+                </span>
+              </a>
+            </li>
+
+            <li className={tw("inline-block mr-2")}>
+              <a rel="me" href="https://soundcloud.com/bastilian">
+                <i class="fa fa-soundcloud"></i>
+                <span className="social-link">
+                  https://soundcloud.com/bastilian
+                </span>
+              </a>
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
   </header>

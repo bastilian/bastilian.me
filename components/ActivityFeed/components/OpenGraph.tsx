@@ -14,11 +14,11 @@ const OpenGraph = ({ openGraphData }) => {
       href={openGraphData["og:url"]}
     >
       {openGraphData["og:image"] && (
-        <div className={tw("w-1/4")}>
+        <div className={tw("w-1/5")}>
           <Image
             src={openGraphData["og:image"]}
             params={{
-              size: "80x80^",
+              size: "70x70^",
               operation: "thumbnail",
               gravity: "center",
             }}
@@ -26,7 +26,7 @@ const OpenGraph = ({ openGraphData }) => {
           />
         </div>
       )}
-      <div className={tw("w-3/4 og-meta")}>
+      <div className={tw("w-3/5 og-meta")}>
         <div className={tw("text-md og-title")}>
           {truncatedTitle}
         </div>

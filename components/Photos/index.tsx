@@ -5,7 +5,10 @@ const Photos = ({ feed }) => {
   return (
     <div className={tw("photos")}>
       <h2 className={tw("w-full")}>
-        <i class="fa fa-picture-o" aria-hidden="true"></i> Photos
+        <a rel="me" href="https://pixey.org/bastilian">
+          <i class="fa fa-pixelfed"></i>
+        </a>{" "}
+        Photos
       </h2>
       <div className={tw("flex gap-4 w-full")}>
         {feed.entries.map((entry) => {

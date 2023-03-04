@@ -20,7 +20,9 @@ export default ({ children, ...props }) => (
           {children}
         </div>
 
-        <Footer className={tw("w-full content-center text-center space-y-4")} />
+        <Footer
+          className={tw("w-full content-center text-center space-y-4 pb-8")}
+        />
       </div>
     </body>
   </html>

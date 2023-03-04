@@ -45,6 +45,7 @@ export default {
   feeds: {
     mastodon: Deno.env.get("MASTODON_FEED"),
     pixelfed: Deno.env.get("PIXELFED_FEED"),
+    lastfm: Deno.env.get("LASTFM_FEED"),
   },
   imageprocessor: Deno.env.get("IMAGE_PROCESSOR") || "is",
   storage: {
@@ -56,8 +57,8 @@ export default {
   ),
   cache: {
     images: Deno.env.get("CACHE_IMAGES") &&
-        Deno.env.get("CACHE_IMAGES") === "true" || true,
+      Deno.env.get("CACHE_IMAGES") === "true" || true,
     feeds: Deno.env.get("CACHE_FEEDS") &&
-        Deno.env.get("CACHE_FEEDS") === "true" || true,
+      Deno.env.get("CACHE_FEEDS") === "true" || true,
   },
 };

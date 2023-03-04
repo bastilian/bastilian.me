@@ -9,8 +9,9 @@ export const handler = {
   async GET(_, ctx) {
     const mastodon = await fetchFeed(config.feeds.mastodon);
     const pixelfed = await fetchFeed(config.feeds.pixelfed);
+    const lastfm = await fetchFeed(config.feeds.lastfm);
 
-    return ctx.render({ mastodon, pixelfed });
+    return ctx.render({ mastodon, pixelfed, lastfm });
   },
 };
 
@@ -31,9 +32,10 @@ export default function Home({ data }) {
             <p>
               I'm Sebastian,<br />
               a programmer living in{" "}
-              <strong>Amsterdam</strong>, in the Netherlands, where I work as a
+              <strong>Amsterdam</strong>, in the Netherlands,<br />
+              where I work as a <span class="job">Software&nbsp;Engineer</span>
               {" "}
-              <span class="job">Software&nbsp;Engineer</span> at&nbsp;<a
+              at&nbsp;<a
                 href="https://redhat.com"
                 style={{
                   color: "#cc0000",
