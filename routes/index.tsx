@@ -1,4 +1,5 @@
 import ActivityFeed from "../components/ActivityFeed/index.tsx";
+import LastFM from "../components/LastFM/index.tsx";
 import Photos from "../components/Photos/index.tsx";
 import Layout from "../components/layouts/Layout.tsx";
 import config from "../_config.ts";
@@ -23,10 +24,7 @@ export default function Home({ data }) {
           "grid md:grid-cols-2 sm:grid-cols-1 gap-4 place-content-start",
         )}
       >
-        <div className={tw("max-w-md")}>
-          <ActivityFeed feed={data.mastodon} />
-        </div>
-        <div className={tw("photos space-y-4")}>
+        <div className={tw("photos space-y-9 mr-9")}>
           <div>
             <h2>hi.</h2>
             <p>
@@ -52,6 +50,10 @@ export default function Home({ data }) {
             </p>
           </div>
           <Photos feed={data.pixelfed} />
+          <LastFM feed={data.lastfm} />
+        </div>
+        <div className={tw("max-w-md")}>
+          <ActivityFeed feed={data.mastodon} />
         </div>
       </div>
     </Layout>

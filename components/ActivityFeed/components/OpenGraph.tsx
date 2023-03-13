@@ -18,7 +18,7 @@ const OpenGraph = ({ openGraphData }) => {
           <Image
             src={openGraphData["og:image"]}
             params={{
-              size: "70x70^",
+              size: "80x80^",
               operation: "thumbnail",
               gravity: "center",
             }}
@@ -26,7 +26,7 @@ const OpenGraph = ({ openGraphData }) => {
           />
         </div>
       )}
-      <div className={tw("w-3/5 og-meta")}>
+      <div className={tw("w-4/5 og-meta")}>
         <div className={tw("text-md og-title")}>
           {truncatedTitle}
         </div>
