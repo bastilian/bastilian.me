@@ -28,7 +28,7 @@ export default function Home({ data }) {
           <div>
             <h2>hi.</h2>
             <p>
-              I'm Sebastian,<br />
+              I'm <strong>Sebastian</strong>,<br />
               a programmer living in{" "}
               <strong>Amsterdam</strong>, in the Netherlands,<br />
               where I work as a <span class="job">Software&nbsp;Engineer</span>
