@@ -2,11 +2,9 @@ import config from "../_config.ts";
 import { createClient } from "supabase";
 
 const supabaseClient = () => {
-  if (config.supabase?.url && config.supabase?.key) {
-    return createClient(
-      config.supabase.url,
-      config.supabase.key,
-    );
+  const { url, key } = config.accounts.supabase;
+  if (url && key) {
+    return createClient(url, key);
   }
 };
 
