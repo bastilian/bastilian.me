@@ -1,13 +1,13 @@
 import { dirname, fromFileUrl, join } from "path";
 
-export const getStorage = () => ({
+export const getStorage = (appRoot) => ({
   storage: {
     ...Deno.env.get("LOCAL_STORAGE_DIR")
       ? {
         local: {
-          directory: join(
-            dirname(fromFileUrl(Deno.mainModule)),
-            Deno.env.get("LOCAL_STORAGE_DIR") || "storage",
+          directory: Deno.env.get("LOCAL_STORAGE_DIR") || join(
+            appRoot,
+            "storage",
           ),
         },
       }

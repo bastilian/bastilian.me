@@ -6,8 +6,10 @@ import {
   getStorage,
 } from "./utilities/configHelpers.ts";
 
+const appRoot = dirname(fromFileUrl(Deno.mainModule || import.meta.url));
+
 export default (() => {
-  const storage = getStorage();
+  const storage = getStorage(appRoot);
   const feeds = collectFeeds();
 
   const fullConfig = {
@@ -22,9 +24,9 @@ export default (() => {
       //   appSecret: Deno.env.get("LASTFM_SECRET"),
       // },
     },
-    imageprocessor: Deno.env.get("IMAGE_PROCESSOR") || "is",
+    imageprocessor: Deno.env.get("IMAGE_PROCESSOR") || "is", // "is", "im"
     staticDirectory: join(
-      dirname(fromFileUrl(Deno.mainModule)),
+      appRoot,
       "static",
     ),
     ...feeds,
