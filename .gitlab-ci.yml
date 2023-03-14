@@ -2,13 +2,14 @@
 image: dokku/ci-docker-image
 
 stages:
-  - deploy
+  - dokku-deploy
+  - release
 
 variables:
   GIT_DEPTH: 0
 
-deploy:
-  stage: deploy
+dokku-deploy:
+  stage: dokku-deploy
   only:
     - main
   variables:
@@ -16,5 +17,17 @@ deploy:
     GIT_PUSH_FLAGS: --force
   script:
     - dokku-deploy
-  # after_script:
-  #   - dokku-unlock
+
+release_job:
+    stage: release
+    image: registry.gitlab.com/gitlab-org/release-cli:latest
+    rules:
+      - if: $CI_COMMIT_TAG
+        when: never
+      - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+    script:
+      - echo "running release_job for $TAG"
+    release:
+      tag_name: 'v0.$CI_PIPELINE_IID'
+      description: 'v0.$CI_PIPELINE_IID'
+      ref: '$CI_COMMIT_SHA'
