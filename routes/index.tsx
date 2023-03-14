@@ -51,11 +51,11 @@ export default function Home({ data }) {
               other shananigans.
             </p>
           </div>
-          <Photos feed={data.pixelfed} />
-          <LastFM feed={data.lastfm} />
+          {data.pixelfed && <Photos feed={data.pixelfed} />}
+          {data.lastfm && <LastFM feed={data.lastfm} />}
         </div>
         <div className={tw("max-w-md")}>
-          <ActivityFeed feed={data.mastodon} />
+          {data.mastodon && <ActivityFeed feed={data.mastodon} />}
         </div>
       </div>
     </Layout>
