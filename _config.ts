@@ -1,72 +1,38 @@
 import "dotenv:load";
 import { dirname, fromFileUrl, join } from "path";
+import {
+  collectFeeds,
+  getCacheDefaults,
+  getStorage,
+} from "./utilities/configHelpers.ts";
 
-const getStorage = () => ({
-  ...Deno.env.get("LOCAL_STORAGE_DIR")
-    ? {
-      local: {
-        directory: join(
-          dirname(fromFileUrl(import.meta.url)),
-          Deno.env.get("LOCAL_STORAGE_DIR") || "storage",
-        ),
+export default (() => {
+  const storage = getStorage();
+  const feeds = collectFeeds();
+
+  const fullConfig = {
+    debug: Deno.env.get("DEBUG"),
+    accounts: {
+      supabase: {
+        url: Deno.env.get("SUPABASE"),
+        key: Deno.env.get("SUPABASE_KEY"),
       },
-    }
-    : {},
-
-  ...Deno.env.get("S3_HOST")
-    ? {
-      s3: {
-        host: Deno.env.get("S3_HOST") || "http://localhost:9000",
-        bucket: Deno.env.get("S3_BUCKET") || "dev-images",
-        region: Deno.env.get("S3_REGION") || "dev-region",
-        accessKey: Deno.env.get("S3_ACCESS_KEY"),
-        secretKey: Deno.env.get("S3_SECRET_KEY"),
-      },
-    }
-    : {},
-
-  ...Deno.env.get("CACHE_STORE")
-    ? {
-      cache: {
-        namespace: "cacheStore",
-      },
-    }
-    : {},
-});
-
-export default {
-  debug: Deno.env.get("DEBUG"),
-
-  accounts: {
-    supabase: {
-      url: Deno.env.get("SUPABASE"),
-      key: Deno.env.get("SUPABASE_KEY"),
+      // lastFMApi: {
+      //   appKey: Deno.env.get("LASTFM_KEY"),
+      //   appSecret: Deno.env.get("LASTFM_SECRET"),
+      // },
     },
-    // lastFMApi: {
-    //   appKey: Deno.env.get("LASTFM_KEY"),
-    //   appSecret: Deno.env.get("LASTFM_SECRET"),
-    // },
-  },
+    imageprocessor: Deno.env.get("IMAGE_PROCESSOR") || "is",
+    staticDirectory: join(
+      dirname(fromFileUrl(Deno.mainModule)),
+      "static",
+    ),
+    ...feeds,
+    ...storage,
+    ...getCacheDefaults(storage),
+  };
 
-  feeds: {
-    mastodon: Deno.env.get("MASTODON_FEED"),
-    pixelfed: Deno.env.get("PIXELFED_FEED"),
-    lastfm: Deno.env.get("LASTFM_FEED"),
-  },
+  console.log("Full application configuration:", fullConfig);
 
-  imageprocessor: Deno.env.get("IMAGE_PROCESSOR") || "is",
-  storage: {
-    ...getStorage(),
-  },
-
-  staticDirectory: join(
-    dirname(fromFileUrl(import.meta.url)),
-    "static",
-  ),
-  cache: {
-    images: Deno.env.get("CACHE_IMAGES") &&
-        Deno.env.get("CACHE_IMAGES") === "true" || true,
-    feeds: Deno.env.get("CACHE_FEEDS") &&
-        Deno.env.get("CACHE_FEEDS") === "true" || true,
-  },
-};
+  return fullConfig;
+})();

@@ -6,11 +6,11 @@ import { hash, log } from "../utilities/helpers.ts";
 import storage from "./Storage.ts";
 
 const store = await storage();
-const feedCache = store.inPath("feeds");
-const openGraphCache = store.inPath("opengraph");
+const feedCache = store?.inPath("feeds");
+const openGraphCache = store?.inPath("opengraph");
 
 const fetchCached = async (fetchFunc, url, store, cachKey = "") => {
-  if (config.cache.feeds) {
+  if (config.cache?.feeds && store) {
     const hashedUrl = await hash(url + cachKey);
     const cachedResult = await store.read(hashedUrl);
 
@@ -29,6 +29,8 @@ const fetchCached = async (fetchFunc, url, store, cachKey = "") => {
       }
     }
   } else {
+    log("Not using cache for fetching");
+
     return await fetchFunc(url);
   }
 };
@@ -39,7 +41,7 @@ export const extractLastLink = (entryText) => {
     "text/html",
   )?.getElementsByTagName("a");
 
-  return allLinks[allLinks.length - 1]?.getAttribute("href");
+  return allLinks?.[allLinks.length - 1]?.getAttribute("href");
 };
 
 const fetchMarkup = async (url) => {
@@ -112,10 +114,14 @@ export default async (url, numberOfEntries = 5) => {
   const feed = fetchedFeed && await parseFeed(fetchedFeed);
 
   const entries = await Promise.all(
-    (feed || []).entries.slice(0, numberOfEntries).map(async (entry) => {
-      const newEntry = await appendOpenGraphData(entry);
-      return newEntry;
-    }),
+    (feed || {}).entries?.slice(0, numberOfEntries).map(async (entry) => {
+      try {
+        const newEntry = await appendOpenGraphData(entry);
+        return newEntry;
+      } catch {
+        return entry;
+      }
+    }) || [],
   );
 
   return {

@@ -7,10 +7,10 @@ import imageScript from "./ImageMagician/imageScript.ts";
 import storage from "./Storage.ts";
 
 const store = await storage();
-const imageCache = store.inPath("imagecache");
+const imageCache = store?.inPath("imagecache");
 
 const cacheImage = async (image, targetFilePath) => {
-  if (config.cache.images) {
+  if (config.cache?.images && imageCache) {
     log("Caching image:", targetFilePath);
     return await imageCache.write(targetFilePath, image);
   } else {
@@ -50,10 +50,11 @@ const transformedImage = async (
   { filePath, url, transforms, targetFilePath },
 ) => {
   log("Transforming image:", url, filePath, targetFilePath);
-  const originalCachedImage = await imageCache.read(filePath);
+  const originalCachedImage = imageCache && await imageCache.read(filePath);
   const originalimage = originalCachedImage ||
     await getAndCacheImage(filePath, url);
-  const transformedCachedImage = await imageCache.read(targetFilePath);
+  const transformedCachedImage = imageCache &&
+    await imageCache.read(targetFilePath);
   const imageCached = transformedCachedImage ||
     await cacheImage(
       await transformImage?.(originalimage, transforms),

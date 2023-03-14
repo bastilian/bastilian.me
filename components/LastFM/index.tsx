@@ -19,7 +19,7 @@ const Entry = ({ description }) => {
 };
 
 const LastFM = ({ feed }) => {
-  console.log("FEEDLFM", feed);
+  // console.log("FEEDLFM", feed);
 
   return (
     <div className={tw("lastfm")}>

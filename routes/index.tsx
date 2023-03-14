@@ -8,11 +8,13 @@ import { tw } from "twind";
 
 export const handler = {
   async GET(_, ctx) {
-    const mastodon = await fetchFeed(config.feeds.mastodon);
-    const pixelfed = await fetchFeed(config.feeds.pixelfed);
-    const lastfm = await fetchFeed(config.feeds.lastfm);
+    const feeds = {};
 
-    return ctx.render({ mastodon, pixelfed, lastfm });
+    for (const [feedKey, feedUrl] of Object.entries(config.feeds)) {
+      feeds[feedKey] = await fetchFeed(feedUrl);
+    }
+
+    return ctx.render({ ...feeds });
   },
 };
 
