@@ -11,6 +11,11 @@ export default ({ children, ...props }) => (
       <link href={asset("css/fork-awesome.min.css")} rel="stylesheet" />
       <link href={asset("main.css")} rel="stylesheet" />
       <link rel="me" href="https://mastodon.social/@bastilian" />
+      <link
+        rel="shortcut icon"
+        type="image/jpg"
+        href={asset("images/favicon.png")}
+      />
     </Head>
     <body>
       <div id="container" className={tw("container mx-auto w-3/5 space-y-8")}>
