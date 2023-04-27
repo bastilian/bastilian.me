@@ -14,15 +14,9 @@ const Header = (props) => (
     >
       <div className={tw("flex-none mr-4 image")}>
         <a href="/">
-          <Image
+          <img
             alt="Sebastian Gräßl"
-            src={asset("images/bastilian_sebastian_graessl.jpg")}
-            className={tw("inline-block rounded-md vcard-avatar")}
-            itemProp="image"
-            params={{
-              operation: "thumbnail",
-              size: "120x120",
-            }}
+            src={asset("images/logo.png")}
           />
         </a>
       </div>
