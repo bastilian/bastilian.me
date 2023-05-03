@@ -6,7 +6,7 @@ import { DOMParser } from "deno_dom";
 import Image from "../../Image.tsx";
 import OpenGraph from "./OpenGraph.tsx";
 
-export const removeLastLink = (entryText) => {
+export const removeLastLink = (entryText = "") => {
   const post = new DOMParser().parseFromString(
     unescapeHtml(entryText).toString(),
     "text/html",
