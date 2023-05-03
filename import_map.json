@@ -9,7 +9,7 @@
     "deno_dom": "https://deno.land/x/deno_dom/deno-dom-wasm.ts",
     "escape": "https://deno.land/x/escape/mod.ts",
     "$fresh/": "https://deno.land/x/fresh@1.1.4/",
-    "imagemagick": "https://deno.land/x/imagemagick_deno/mod.ts",
+    "imagemagick": "https://deno.land/x/imagemagick_deno@0.0.19/mod.ts",
     "imagescript": "https://deno.land/x/imagescript/mod.ts",
     "rss": "https://deno.land/x/rss/mod.ts",
     "s3_lite_client": "https://deno.land/x/s3_lite_client/mod.ts",
