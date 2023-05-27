@@ -111,6 +111,7 @@ export default async (url, numberOfEntries = 5) => {
     feedCache,
     cacheKey,
   );
+  try {
   const feed = fetchedFeed && await parseFeed(fetchedFeed);
 
   const entries = await Promise.all(
@@ -128,4 +129,8 @@ export default async (url, numberOfEntries = 5) => {
     ...feed,
     entries,
   };
+} catch (e) {
+  log('Error parsing feed: ', e.message)
+  return {}
+}
 };
