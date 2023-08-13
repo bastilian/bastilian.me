@@ -5,7 +5,7 @@ import {
   getCacheDefaults,
   getStorage,
 } from "./utilities/configHelpers.ts";
-import { log } from './utilities/helpers.ts';
+import { log } from "./utilities/helpers.ts";
 
 const appRoot = dirname(fromFileUrl(Deno.mainModule || import.meta.url));
 
@@ -35,7 +35,7 @@ export default (() => {
     ...getCacheDefaults(storage),
   };
 
-  if(Deno.env.get("DEBUG")) {
+  if (Deno.env.get("DEBUG")) {
     console.log("Full application configuration:", fullConfig);
   }
 
