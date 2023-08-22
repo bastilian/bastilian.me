@@ -3,6 +3,7 @@ image: dokku/ci-docker-image
 
 stages:
   - dokku-deploy
+  - deno-deploy
   - release
 
 variables:
@@ -17,6 +18,16 @@ dokku-deploy:
     GIT_PUSH_FLAGS: --force
   script:
     - dokku-deploy
+
+deno-deploy:
+    image:
+      name: denoland/deno:latest
+    stage: deno-deploy
+    only:
+      - main
+    script:
+      - bash && deno install --allow-all --no-check -r -f https://deno.land/x/deploy/deployctl.ts
+      - bash && deployctl deploy --project=bastilian-me main.ts
 
 release_job:
     stage: release
