@@ -2,15 +2,14 @@
 image: dokku/ci-docker-image
 
 stages:
-  - dokku-deploy
-  - deno-deploy
+  - deploy
   - release
 
 variables:
   GIT_DEPTH: 0
 
 dokku-deploy:
-  stage: dokku-deploy
+  stage: deploy
   only:
     - main
   variables:
@@ -22,7 +21,7 @@ dokku-deploy:
 deno-deploy:
     image:
       name: denoland/deno:latest
-    stage: deno-deploy
+    stage: deploy
     only:
       - main
     script:
