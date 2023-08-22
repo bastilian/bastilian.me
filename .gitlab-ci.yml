@@ -27,7 +27,7 @@ deno-deploy:
       - main
     script:
       - bash && deno install --allow-all --no-check -r -f https://deno.land/x/deploy/deployctl.ts
-      - bash && deployctl deploy --project=bastilian-me main.ts
+      - bash && deployctl deploy --prod --project=bastilian-me main.ts
 
 release_job:
     stage: release
