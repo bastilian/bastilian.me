@@ -10,7 +10,7 @@ const OpenGraph = ({ openGraphData }) => {
     : openGraphData["og:title"];
   return (
     <a
-      className={tw("flex gap-4 w-full my-4")}
+      className={tw("flex gap-4 w-full mt-2 rounded-md opengraph-content")}
       href={openGraphData["og:url"]}
     >
       {openGraphData["og:image"] && (

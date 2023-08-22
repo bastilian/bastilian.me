@@ -96,6 +96,7 @@ h2 {
 .activity-post-meta {
   font-size: .8em;
   color: #717C89;
+  /* border-bottom: 1px dashed #58586c; */
 }
 
 .activity-post-meta a {
@@ -106,4 +107,15 @@ h2 {
 
 footer {
   font-size: .95em;
+}
+
+.opengraph-content {
+  /* border: 1px dashed #58586c; */
+  transition: all ease-in 250ms;
+}
+
+.opengraph-content:hover {
+  transition: all ease-out 250ms;
+  background: #F8C630;
+  color: #1E1E24;
 }

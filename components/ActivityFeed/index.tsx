@@ -1,6 +1,9 @@
 import Post from "./components/Post.tsx";
 import { tw } from "twind";
 
+// TODO Make this configurable
+const POST_COUNT = 5
+
 const ActivityFeed = ({ feed }) => {
   return (
     <div className={tw("activity-feed")}>
@@ -10,8 +13,8 @@ const ActivityFeed = ({ feed }) => {
         </a>
         &nbsp; Activity Feed
       </h2>
-      <div className={tw("grid space-y-6")}>
-        {feed.entries?.slice(0, 5).map((entry, idx) => (
+      <div className={tw("grid space-y-10")}>
+        {feed.entries?.slice(0, POST_COUNT).map((entry, idx) => (
           <Post entry={entry} idx={idx} />
         ))}
       </div>

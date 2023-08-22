@@ -23,7 +23,7 @@ const Post = ({ entry, idx }) => {
   const postWithoutLastLink = removeLastLink(post);
   return (
     <div className={tw("")}>
-      <span className="activity-post-content">
+      <div className="activity-post-content">
         <span
           dangerouslySetInnerHTML={{
             __html: unescapeHtml(
@@ -31,7 +31,7 @@ const Post = ({ entry, idx }) => {
             ),
           }}
         />
-      </span>
+      </div>
       {entry["media:content"]?.[0]["url"] && (
         <Image
           src={entry["media:content"]?.[0]["url"]}
@@ -45,13 +45,12 @@ const Post = ({ entry, idx }) => {
 
       {entry.openGraphMeta && <OpenGraph openGraphData={entry.openGraphMeta} />}
 
-      <span className="activity-post-meta">
-        <i class="fa fa-mastodon"></i>{" "}
+      <div className={tw("activity-post-meta mt-2")}>
         <a href={entry["links"]?.[0]["href"]}>
           Posted on {format(entry.published, "dd-MM-yyyy")} at{" "}
           {format(entry.published, "HH:mm")}
         </a>
-      </span>
+      </div>
     </div>
   );
 };
