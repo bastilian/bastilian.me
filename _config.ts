@@ -33,6 +33,7 @@ export default (() => {
     ...feeds,
     ...storage,
     ...getCacheDefaults(storage),
+    defaultStorage: Deno.env.get("DEFAULT_STORAGE") || "local",
   };
 
   if (Deno.env.get("DEBUG")) {

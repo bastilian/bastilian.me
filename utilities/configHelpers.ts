@@ -32,6 +32,14 @@ export const getStorage = (appRoot) => ({
         },
       }
       : {},
+
+    ...Deno.env.get("KV_STORE")
+      ? {
+        kv: ["true", "false"].includes(Deno.env.get("KV_STORE") as string)
+          ? Deno.env.get("KV_STORE") === "true"
+          : Deno.env.get("KV_STORE"),
+      }
+      : {},
   },
 });
 
