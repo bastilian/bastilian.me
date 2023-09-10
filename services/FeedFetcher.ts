@@ -3,13 +3,13 @@ import { parseFeed } from "rss";
 import { DOMParser } from "deno_dom";
 import config from "../_config.ts";
 import { hash, log } from "../utilities/helpers.ts";
-import storage from "./Storage/kvStore.ts";
+import storage from "./Storage.ts";
 
 const MAX_ENTRIES = 10;
 
 const store = await storage();
-const feedCache = await store("feeds");
-const openGraphCache = await store("opengraph");
+const feedCache = store?.inPath("feeds");
+const openGraphCache = store?.inPath("opengraph");
 
 const fetchCached = async (fetchFunc, url, store, cachKey = "") => {
   if (config.cache?.feeds && store) {
@@ -18,19 +18,13 @@ const fetchCached = async (fetchFunc, url, store, cachKey = "") => {
 
     if (cachedResult) {
       log("Returning cached result");
-
       return new TextDecoder().decode(cachedResult);
     } else {
       log("Fetching and caching result");
       const result = await fetchFunc(url);
       if (result) {
         const cachedResult = await store.write(hashedUrl, result);
-        if (cachedResult) {
-          return new TextDecoder().decode(cachedResult);
-        } else {
-          log("Caching seems to have failed");
-          return result;
-        }
+        return new TextDecoder().decode(cachedResult);
       } else {
         log("Empty result not cached");
         return;
@@ -120,7 +114,6 @@ export default async (url, numberOfEntries = MAX_ENTRIES) => {
     cacheKey,
   );
   try {
-    log("Trying to parse", fetchedFeed);
     const feed = fetchedFeed && await parseFeed(fetchedFeed);
 
     const entries = await Promise.all(
