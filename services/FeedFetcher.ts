@@ -1,12 +1,11 @@
 import { unescapeHtml } from "escape";
-import { parseFeed } from "rss";
-import { DOMParser } from "deno_dom";
+import { parseFeed } from "@mikaelporttila/rss";
+import { DOMParser } from "@b-fuze/deno-dom";
 import config from "../_config.ts";
 import { hash, log } from "../utilities/helpers.ts";
 import storage from "./Storage.ts";
 
 const MAX_ENTRIES = 10;
-
 const store = await storage();
 const feedCache = store?.inPath("feeds");
 const openGraphCache = store?.inPath("opengraph");

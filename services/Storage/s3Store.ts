@@ -1,6 +1,6 @@
 import { log } from "../../utilities/helpers.ts";
-import { S3Client } from "s3_lite_client";
-import { join } from "path";
+import { S3Client } from "@bradenmacdonald/s3-lite-client";
+import { join } from "@std/path";
 
 const read = (s3client, path) => async (fileName) => {
   const filePath = join(path, fileName);

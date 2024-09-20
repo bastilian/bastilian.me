@@ -1,4 +1,4 @@
-import { dirname, fromFileUrl, join } from "path";
+import { dirname, fromFileUrl, join } from "@std/path";
 
 export const getStorage = (appRoot) => ({
   storage: {
@@ -72,4 +72,17 @@ export const collectFeeds = () => {
       [key.split("_")[0].toLowerCase()]: value,
     }), {}),
   };
+};
+
+export const getDebug = () => {
+  const enableDebug = Deno.env.get("DEBUG");
+  console.log(Deno.env.get("DEBUG"));
+  if (
+    typeof enableDebug === "string" &&
+    enableDebug !== "true"
+  ) {
+    return enableDebug.split(",");
+  } else {
+    return enableDebug === "true";
+  }
 };

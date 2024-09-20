@@ -3,3 +3,7 @@
 /.image-cache
 /.env
 /storage
+
+# Fresh build directory
+_fresh/
+node_modules/

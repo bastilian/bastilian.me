@@ -1,5 +1,3 @@
-import { tw } from "twind";
-
 const Footer = (props) => {
   return (
     <footer {...props}>
@@ -19,7 +17,7 @@ const Footer = (props) => {
             height="37"
             src="https://fresh.deno.dev/fresh-badge-dark.svg"
             alt="Made with Fresh"
-            className={tw("inline-block")}
+            className="inline-block"
           />
         </a>
       </p>

@@ -1,51 +1,47 @@
 {
+  "lock": false,
+  "nodeModulesDir": true,
   "tasks": {
-    "start": "DEBUG=true deno run --unstable --reload -A --watch=static/,routes/,services/ dev.ts",
+    "start": "deno run --unstable --reload -A --watch=static/,routes/,services/ dev.ts",
     "debug": "DEBUG=true deno run --reload -A --inspect main.ts",
     "fresh:update": "deno run -A -r https://fresh.deno.dev/update .",
     "serve": "deno run --unstable --allow-read=. --allow-net --allow-env main.ts",
     "esm:add": "deno run -A https://esm.sh/v111 add",
     "esm:update": "deno run -A https://esm.sh/v111 update",
-    "esm:remove": "deno run -A https://esm.sh/v111 remove"
+    "esm:remove": "deno run -A https://esm.sh/v111 remove",
+    "build": "deno run -A dev.ts build",
+    "preview": "deno run -A main.ts"
   },
-  "compilerOptions": {
-    "jsx": "react-jsx",
-    "jsxImportSource": "preact"
-  },
+  "compilerOptions": { "jsx": "react-jsx", "jsxImportSource": "preact" },
   "imports": {
-    "crypto": "https://deno.land/std/crypto/mod.ts",
-    "datetime": "https://deno.land/std/datetime/format.ts",
-    "dotenv:load": "https://deno.land/std/dotenv/load.ts",
-    "fs": "https://deno.land/std/fs/mod.ts",
-    "parse_media_type": "https://deno.land/std/media_types/parse_media_type.ts",
-    "path": "https://deno.land/std/path/mod.ts",
-    "deno_dom": "https://deno.land/x/deno_dom/deno-dom-wasm.ts",
+    "$fresh/": "https://deno.land/x/fresh@1.6.8/",
+    "@b-fuze/deno-dom": "jsr:@b-fuze/deno-dom@^0.1.48",
+    "@bradenmacdonald/s3-lite-client": "jsr:@bradenmacdonald/s3-lite-client@^0.7.6",
+    "@mikaelporttila/rss": "jsr:@mikaelporttila/rss@^1.1.1",
+    "@preact/signals": "https://esm.sh/*@preact/signals@1.2.2",
+    "@preact/signals-core": "https://esm.sh/*@preact/signals-core@1.5.1",
+    "@std/datetime": "jsr:@std/datetime@^0.225.2",
+    "@std/dotenv": "jsr:@std/dotenv@^0.225.2",
+    "@std/fs": "jsr:@std/fs@^1.0.3",
+    "@std/media-types": "jsr:@std/media-types@^1.0.3",
+    "@std/path": "jsr:@std/path@^1.0.6",
+    "@stdext/crypto/hash": "jsr:@stdext/crypto/hash",
+    "@supabase/supabase-js": "jsr:@supabase/supabase-js@^2.45.4",
     "escape": "https://deno.land/x/escape/mod.ts",
-    "$fresh/": "https://deno.land/x/fresh@1.3.0/",
     "imagemagick": "https://deno.land/x/imagemagick_deno@0.0.19/mod.ts",
     "imagescript": "https://deno.land/x/imagescript/mod.ts",
-    "rss": "https://deno.land/x/rss/mod.ts",
-    "s3_lite_client": "https://deno.land/x/s3_lite_client/mod.ts",
-    "@preact/signals-core": "https://esm.sh/*@preact/signals-core@1.2.3",
-    "@preact/signals": "https://esm.sh/*@preact/signals@1.1.3",
-    "supabase": "https://esm.sh/@supabase/supabase-js@2",
-    "preact-render-to-string": "https://esm.sh/*preact-render-to-string@6.2.0",
-    "preact": "https://esm.sh/preact@10.15.1",
-    "preact/": "https://esm.sh/preact@10.15.1/",
-    "twind": "https://esm.sh/twind@0.16.19",
-    "twind/": "https://esm.sh/twind@0.16.19/"
+    "preact": "https://esm.sh/preact@10.19.6",
+    "preact-render-to-string": "https://esm.sh/*preact-render-to-string@6.2.2",
+    "preact/": "https://esm.sh/preact@10.19.6/",
+    "tailwindcss": "npm:tailwindcss@3.4.1",
+    "tailwindcss/": "npm:/tailwindcss@3.4.1/",
+    "tailwindcss/plugin": "npm:/tailwindcss@3.4.1/plugin.js"
   },
   "scopes": {
     "https://esm.sh/v111/": {
       "underscore": "https://esm.sh/v111/underscore@1.13.6"
     }
   },
-  "lint": {
-    "rules": {
-      "tags": [
-        "fresh",
-        "recommended"
-      ]
-    }
-  }
+  "lint": { "rules": { "tags": ["fresh", "recommended"] } },
+  "exclude": ["**/_fresh/*"]
 }

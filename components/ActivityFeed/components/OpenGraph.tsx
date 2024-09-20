@@ -1,5 +1,3 @@
-import { tw } from "twind";
-
 import Image from "../../Image.tsx";
 
 const MAX_TITLE_LENGTH = 45;
@@ -10,11 +8,11 @@ const OpenGraph = ({ openGraphData }) => {
     : openGraphData["og:title"];
   return (
     <a
-      className={tw("flex gap-4 w-full mt-2 rounded-md opengraph-content")}
+      className="flex gap-4 w-full mt-2 rounded-md opengraph-content"
       href={openGraphData["og:url"]}
     >
       {openGraphData["og:image"] && (
-        <div className={tw("w-1/5")}>
+        <div className="w-1/5">
           <Image
             src={openGraphData["og:image"]}
             params={{
@@ -22,15 +20,15 @@ const OpenGraph = ({ openGraphData }) => {
               operation: "thumbnail",
               gravity: "center",
             }}
-            className={tw("inline-block rounded-md")}
+            className="inline-block rounded-md"
           />
         </div>
       )}
-      <div className={tw("w-4/5 og-meta")}>
-        <div className={tw("text-md og-title")}>
+      <div className="w-4/5 og-meta">
+        <div className="text-md og-title">
           {truncatedTitle}
         </div>
-        <div className={tw("text-sm og-sitename")}>
+        <div className="text-sm og-sitename">
           <i
             className={`fa fa-${openGraphData["og:site_name"]?.toLowerCase()}`}
           >

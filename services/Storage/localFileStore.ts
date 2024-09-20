@@ -1,6 +1,6 @@
+import { ensureDir } from "@std/fs";
+import { join } from "@std/path";
 import { log } from "../../utilities/helpers.ts";
-import { ensureDir } from "fs";
-import { join } from "path";
 
 const writeLocal = (baseDirectory) => async (fileName, data) => {
   const filePath = join(baseDirectory, fileName);
