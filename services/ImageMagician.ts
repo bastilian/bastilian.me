@@ -1,4 +1,4 @@
-import { join } from "path";
+import { join } from "@std/path";
 import config from "../_config.ts";
 import { log } from "../utilities/helpers.ts";
 import { optionsFromParams } from "./ImageMagician/helpers.ts";

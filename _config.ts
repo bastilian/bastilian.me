@@ -1,8 +1,9 @@
-import "dotenv:load";
-import { dirname, fromFileUrl, join } from "path";
+import "@std/dotenv/load";
+import { dirname, fromFileUrl, join } from "@std/path";
 import {
   collectFeeds,
   getCacheDefaults,
+  getDebug,
   getStorage,
 } from "./utilities/configHelpers.ts";
 import { log } from "./utilities/helpers.ts";
@@ -14,7 +15,7 @@ export default (() => {
   const feeds = collectFeeds();
 
   const fullConfig = {
-    debug: Deno.env.get("DEBUG"),
+    debug: getDebug(),
     accounts: {
       supabase: {
         url: Deno.env.get("SUPABASE"),
@@ -36,7 +37,7 @@ export default (() => {
     defaultStorage: Deno.env.get("DEFAULT_STORAGE") || "local",
   };
 
-  if (Deno.env.get("DEBUG")) {
+  if (getDebug()) {
     console.log("Full application configuration:", fullConfig);
   }
 

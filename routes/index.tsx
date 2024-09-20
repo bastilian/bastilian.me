@@ -4,7 +4,6 @@ import Photos from "../components/Photos/index.tsx";
 import Layout from "../components/layouts/Layout.tsx";
 import config from "../_config.ts";
 import fetchFeed from "../services/FeedFetcher.ts";
-import { tw } from "twind";
 
 export const handler = {
   async GET(_, ctx) {
@@ -21,12 +20,8 @@ export const handler = {
 export default function Home({ data }) {
   return (
     <Layout>
-      <div
-        className={tw(
-          "grid md:grid-cols-2 sm:grid-cols-1 gap-4 place-content-start",
-        )}
-      >
-        <div className={tw("photos space-y-9 mr-9")}>
+      <div className="grid md:grid-cols-2 sm:grid-cols-1 gap-4 place-content-start">
+        <div className="photos space-y-9 mr-9">
           <div>
             <h2>hi.</h2>
             <p>
@@ -54,7 +49,7 @@ export default function Home({ data }) {
           {data.pixelfed && <Photos feed={data.pixelfed} />}
           {data.lastfm && <LastFM feed={data.lastfm} />}
         </div>
-        <div className={tw("max-w-md")}>
+        <div className="max-w-md">
           {data.mastodon && <ActivityFeed feed={data.mastodon} />}
         </div>
       </div>

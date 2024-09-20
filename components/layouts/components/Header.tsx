@@ -1,6 +1,4 @@
 import { asset } from "$fresh/runtime.ts";
-import { tw } from "twind";
-
 import Image from "../../Image.tsx";
 
 const Header = (props) => (
@@ -8,11 +6,11 @@ const Header = (props) => (
     {...props}
   >
     <div
-      className={tw("flex vcard")}
+      className="flex vcard"
       itemScope
       itemType="http://schema.org/Person"
     >
-      <div className={tw("flex-none mr-4 image")}>
+      <div className="flex-none mr-4 image">
         <a href="/">
           <img
             alt="Sebastian Gräßl"
@@ -20,7 +18,7 @@ const Header = (props) => (
           />
         </a>
       </div>
-      <div className={tw("flex-auto")}>
+      <div className="flex-auto">
         <p className="vcard-names">
           <h1 className="vcard-fullname" itemProp="name">
             Sebastian Gräßl
@@ -33,9 +31,9 @@ const Header = (props) => (
           </span>
         </p>
 
-        <div className={tw("social-accounts")}>
+        <div className="social-accounts">
           <ul>
-            <li className={tw("inline-block mr-2")}>
+            <li className="inline-block mr-2">
               <a rel="me" href="https://github.com/bastilian">
                 <i class="fa fa-github"></i>{" "}
                 <span className="social-link">
@@ -44,7 +42,7 @@ const Header = (props) => (
               </a>
             </li>
 
-            <li className={tw("inline-block mr-2")}>
+            <li className="inline-block mr-2">
               <a rel="me" href="https://soundcloud.com/bastilian">
                 <i class="fa fa-soundcloud"></i>
                 <span className="social-link">
