@@ -1,10 +1,10 @@
-FROM denoland/deno:latest as base
+FROM denoland/deno:1.46.3 as base
 
 WORKDIR /app
 COPY . ./
-RUN rm -f deno.lock
-RUN deno cache main.ts
 
-CMD ["task", "serve"]
+RUN deno task build
+
+CMD ["run", "serve"]
 
 EXPOSE 8000
