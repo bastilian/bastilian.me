@@ -1,5 +1,5 @@
 import { parseFeed } from "@mikaelporttila/rss";
-import { hash as hasher } from "@stdext/crypto/hash";
+import { encodeBase64Url } from "jsr:@std/encoding/base64url";
 
 import config from "../_config.ts";
 
@@ -15,8 +15,8 @@ export const getFeed = async (feed: string) => {
   }
 };
 
-export const hash = async (string: string) =>
-  hasher("bcrypt", string).slice(0, 10);
+export const hash = (string: string) =>
+  encodeURI(encodeBase64Url(string)).slice(1, 150);
 
 export const log = (...args) => {
   if (config.debug) console.log(...args);

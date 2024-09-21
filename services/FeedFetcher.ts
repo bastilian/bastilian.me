@@ -12,7 +12,7 @@ const openGraphCache = store?.inPath("opengraph");
 
 const fetchCached = async (fetchFunc, url, store, cachKey = "") => {
   if (config.cache?.feeds && store) {
-    const hashedUrl = await hash(url + cachKey);
+    const hashedUrl = hash(url + cachKey);
     const cachedResult = await store.read(hashedUrl);
 
     if (cachedResult) {

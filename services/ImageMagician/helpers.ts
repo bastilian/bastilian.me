@@ -12,9 +12,9 @@ const getImageUrl = (params, host) => {
   }
 };
 
-export const optionsFromParams = async (params, host) => {
+export const optionsFromParams = (params, host) => {
   const url = decodeURIComponent(params.get("image")); ///getImageUrl(params, host);
-  const imageId = await hash(url);
+  const imageId = hash(url);
   const filePath = imageId;
 
   const height = params.get("height") || params.get("width");
@@ -30,7 +30,7 @@ export const optionsFromParams = async (params, host) => {
   const transform = size
     ? { size, operation, gravity }
     : { operation, gravity, height: parseInt(height), width: parseInt(width) };
-  const transformHash = await hash(JSON.stringify(transform));
+  const transformHash = hash(JSON.stringify(transform));
   const targetFilePath = `${filePath}-${transformHash}.png`;
 
   return {
