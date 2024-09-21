@@ -1,4 +1,5 @@
-import "@std/dotenv/load";
+import { load } from "@std/dotenv";
+
 import { dirname, fromFileUrl, join } from "@std/path";
 import {
   collectFeeds,
@@ -7,6 +8,12 @@ import {
   getStorage,
 } from "./utilities/configHelpers.ts";
 import { log } from "./utilities/helpers.ts";
+
+if (Deno.env.get("DENO_ENV") !== "test") {
+  load();
+} else {
+  console.log("Testing not loading env vars");
+}
 
 const appRoot = dirname(fromFileUrl(Deno.mainModule || import.meta.url));
 

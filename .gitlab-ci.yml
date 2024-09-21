@@ -1,14 +1,22 @@
 ---
-image: dokku/ci-docker-image
-
 stages:
+  - build
   - deploy
   - release
 
 variables:
   GIT_DEPTH: 0
 
+test:
+  image:
+    name: denoland/deno:1.46.3
+  stage: build
+  script:
+    - deno task test
+
 dokku-deploy:
+  image:
+    name: dokku/ci-docker-image
   stage: deploy
   only:
     - main
@@ -39,6 +47,6 @@ release_job:
     script:
       - echo "running release_job for $TAG"
     release:
-      tag_name: 'v0.$CI_PIPELINE_IID-$TAG'
-      description: 'v0.$CI_PIPELINE_IID-$TAG'
+      tag_name: 'v$CI_COMMIT_SHORT_SHA'
+      description: 'v$CI_COMMIT_SHORT_SHA'
       ref: '$CI_COMMIT_SHA'
