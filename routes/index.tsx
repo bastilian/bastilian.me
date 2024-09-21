@@ -1,3 +1,6 @@
+import { FreshContext, Handlers, PageProps } from "$fresh/server.ts";
+import { hash, log } from "../utilities/helpers.ts";
+
 import ActivityFeed from "../components/ActivityFeed/index.tsx";
 import LastFM from "../components/LastFM/index.tsx";
 import Photos from "../components/Photos/index.tsx";
@@ -5,15 +8,25 @@ import Layout from "../components/layouts/Layout.tsx";
 import config from "../_config.ts";
 import fetchFeed from "../services/FeedFetcher.ts";
 
-export const handler = {
-  async GET(_, ctx) {
-    const feeds = {};
+export const handler: Handlers = {
+  async GET(_req: Request, ctx: FreshContext) {
+    const configFeeds = Object.entries(config.feeds);
 
-    for (const [feedKey, feedUrl] of Object.entries(config.feeds)) {
-      feeds[feedKey] = await fetchFeed(feedUrl);
+    if (configFeeds.length > 0) {
+      const feeds = {};
+
+      for (const [feedKey, feedUrl] of configFeeds) {
+        log(`Fetching feed for ${feedKey} from ${feedUrl}...`);
+
+        feeds[feedKey] = await fetchFeed(feedUrl);
+      }
+
+      return ctx.render({ ...feeds });
+    } else {
+      log("No feeds found");
+
+      return ctx.render();
     }
-
-    return ctx.render({ ...feeds });
   },
 };
 
