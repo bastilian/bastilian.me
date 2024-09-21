@@ -2,8 +2,8 @@
   "lock": false,
   "nodeModulesDir": true,
   "tasks": {
-    "start": "DEBUG=true deno run --unstable --reload -ER --watch=static/,routes/,services/ dev.ts",
-    "debug": "DEBUG=true deno run --reload -ER --inspect main.ts",
+    "start": "DEBUG=true deno run --reload -A --watch dev.ts",
+    "debug": "DEBUG=true deno run --reload -A --inspect main.ts",
     "test": "DEBUG=true DENO_ENV=test deno test -ER --no-check --coverage && deno coverage --html",
     "fresh:update": "deno run -A -r https://fresh.deno.dev/update .",
     "serve": "deno run -A main.ts",

@@ -2,6 +2,7 @@
 stages:
   - build
   - deploy
+  - pages
   - release
 
 variables:
@@ -27,26 +28,36 @@ dokku-deploy:
     - dokku-deploy
 
 deno-deploy:
-    image:
-      name: denoland/deno:1.46.3
-    stage: deploy
-    only:
-      - main
-    script:
-      - bash && deno install --global -Arf jsr:@deno/deployctl
-      - bash && deno task build
-      - bash && deployctl deploy --prod --project=bastilian-me main.ts
+  image:
+    name: denoland/deno:1.46.3
+  stage: deploy
+  only:
+    - main
+  script:
+    - bash && deno install --global -Arf jsr:@deno/deployctl
+    - bash && deno task build
+    - bash && deployctl deploy --prod --project=bastilian-me main.ts
 
 release_job:
-    stage: release
-    image: registry.gitlab.com/gitlab-org/release-cli:latest
-    rules:
-      - if: $CI_COMMIT_TAG
-        when: never
-      - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
-    script:
-      - echo "running release_job for $TAG"
-    release:
-      tag_name: 'v$CI_COMMIT_SHORT_SHA'
-      description: 'v$CI_COMMIT_SHORT_SHA'
-      ref: '$CI_COMMIT_SHA'
+  stage: release
+  image: registry.gitlab.com/gitlab-org/release-cli:latest
+  rules:
+    - if: $CI_COMMIT_TAG
+      when: never
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+  script:
+    - echo "running release_job for $TAG"
+  release:
+    tag_name: 'v$CI_COMMIT_SHORT_SHA'
+    description: 'v$CI_COMMIT_SHORT_SHA'
+    ref: '$CI_COMMIT_SHA'
+
+pages:
+  image:
+    name: denoland/deno:1.46.3
+  stage: pages
+  script:
+    - deno task test && mv coverage/html ./public
+  artifacts:
+    paths:
+      - public

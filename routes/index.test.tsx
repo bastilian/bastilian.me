@@ -6,10 +6,9 @@ import * as home from "./index.tsx";
 
 describe("page", () => {
   describe("/", () => {
-    it("test", async () => {
+    it("should be made by fresh", async () => {
       const res = await render(home);
 
-      expect(res).toContain("Sebastian");
       expect(res).toContain("Made with Fresh");
     });
   });

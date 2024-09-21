@@ -16,7 +16,7 @@ export const getFeed = async (feed: string) => {
 };
 
 export const hash = (string: string) =>
-  encodeURI(encodeBase64Url(string)).slice(1, 150);
+  encodeURI(encodeBase64Url(string)).slice(35, 100);
 
 export const log = (...args) => {
   if (config.debug) console.log(...args);
