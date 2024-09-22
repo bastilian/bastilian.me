@@ -68,7 +68,9 @@ pages:
     name: denoland/deno:1.46.3
   stage: pages
   script:
-    - deno task test && mv coverage/html ./public
+    - mkdir -p public
+    - deno task test && mv coverage/html ./public/coverage
+    - deno task docs && mv docs ./public/docs
   artifacts:
     paths:
       - public

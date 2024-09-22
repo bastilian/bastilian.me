@@ -11,7 +11,8 @@
     "esm:update": "deno run -A https://esm.sh/v111 update",
     "esm:remove": "deno run -A https://esm.sh/v111 remove",
     "build": "deno run -A dev.ts build",
-    "preview": "deno run -A main.ts"
+    "preview": "deno run -A main.ts",
+    "docs": "deno doc --html --name=\"bastilian.me - docs\" --output=./docs/ \"*.ts*\" \"routes/**/*.ts*\" \"components/**/*.ts*\" \"islands/**/*.ts*\" \"services/**/*.ts*\" \"utilities/**/*.ts*\""
   },
   "compilerOptions": { "jsx": "react-jsx", "jsxImportSource": "preact" },
   "imports": {
