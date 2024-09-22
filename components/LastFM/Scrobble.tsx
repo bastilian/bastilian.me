@@ -10,23 +10,24 @@ const extractMeta = (description) => {
 };
 
 const Entry = (
-  { description, entry: { content: { value: content } }, ...rest },
+  { description, entry: { content: { value: content } = {} } = {}, ...rest },
 ) => {
-
   const [track, artist] = extractMeta(description);
-  const imageUrl = content.match(/src=\"(.*)\"/)[1];
+  const imageUrl = content?.match(/src=\"(.*)\"/)[1];
 
   return (
     <li>
-      <Image
-        src={imageUrl}
-        className="inline-block rounded-md mr-2"
-        params={{
-          width: 36,
-          height: 36,
-          operation: "thumbnail",
-        }}
-      />
+      {imageUrl && (
+        <Image
+          src={imageUrl}
+          className="inline-block rounded-md mr-2"
+          params={{
+            width: 36,
+            height: 36,
+            operation: "thumbnail",
+          }}
+        />
+      )}
       {track} by {artist}
     </li>
   );

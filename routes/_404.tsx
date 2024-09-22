@@ -12,9 +12,20 @@ export default function NotFoundPage(
 
   return (
     <Layout>
-      <div style={{ textAlign: 'center' }}>
-      <h1>404 not found: {url.pathname}</h1>
-      <p><iframe width="560" height="315" src="https://www.youtube.com/embed/p11gNG1KXUA?si=5CZEtA0tXgBpuhjZ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></p>
+      <div style={{ textAlign: "center" }}>
+        <h1>404 not found: {url.pathname}</h1>
+        <p>
+          <iframe
+            width="560"
+            height="315"
+            src="https://www.youtube.com/embed/p11gNG1KXUA?si=5CZEtA0tXgBpuhjZ"
+            title="YouTube video player"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowfullscreen
+          >
+          </iframe>
+        </p>
       </div>
     </Layout>
   );

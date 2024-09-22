@@ -1,6 +1,6 @@
 ---
 stages:
-  - build
+  - test
   - deploy
   - pages
   - release
@@ -11,9 +11,18 @@ variables:
 test:
   image:
     name: denoland/deno:1.46.3
-  stage: build
+  stage: test
   script:
     - deno task test
+
+lint:
+    image:
+      name: denoland/deno:1.46.3
+    stage: test
+    allow_failure: true
+    script:
+      - deno test -q --check --no-run
+      - deno fmt -q --check
 
 dokku-deploy:
   image:
@@ -53,6 +62,8 @@ release_job:
     ref: '$CI_COMMIT_SHA'
 
 pages:
+  only:
+    - main
   image:
     name: denoland/deno:1.46.3
   stage: pages

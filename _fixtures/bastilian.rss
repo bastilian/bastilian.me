@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:webfeeds="http://webfeeds.org/rss/1.0" xmlns:media="http://search.yahoo.com/mrss/">
+  <channel>
+    <title>Sebastian Gräßl</title>
+    <description>Public posts from @bastilian@mastodon.social</description>
+    <link>https://mastodon.social/@bastilian</link>
+    <image>
+      <url>https://files.mastodon.social/accounts/avatars/000/034/929/original/1ed48d3c0de9c033.jpg</url>
+      <title>Sebastian Gräßl</title>
+      <link>https://mastodon.social/@bastilian</link>
+    </image>
+    <lastBuildDate>Sat, 21 Sep 2024 16:06:19 +0000</lastBuildDate>
+    <webfeeds:icon>https://files.mastodon.social/accounts/avatars/000/034/929/original/1ed48d3c0de9c033.jpg</webfeeds:icon>
+    <generator>Mastodon v4.3.0-beta.2+pr-31960-9262aa2</generator>
+    <item>
+      <guid isPermaLink="true">https://mastodon.social/@bastilian/113176397736129945</guid>
+      <link>https://mastodon.social/@bastilian/113176397736129945</link>
+      <pubDate>Sat, 21 Sep 2024 16:06:19 +0000</pubDate>
+      <description>asdasd</description>
+    </item>
+    <item>
+      <guid isPermaLink="true">https://mastodon.social/@bastilian/113146950281283723</guid>
+      <link>https://mastodon.social/@bastilian/113146950281283723</link>
+      <pubDate>Mon, 16 Sep 2024 11:17:27 +0000</pubDate>
+      <description>asdasd</description>
+    </item>
+    <item>
+      <guid isPermaLink="true">https://mastodon.social/@bastilian/113118628572229851</guid>
+      <link>https://mastodon.social/@bastilian/113118628572229851</link>
+      <pubDate>Wed, 11 Sep 2024 11:14:52 +0000</pubDate>
+      <description>asdasd</description>
+    </item>
+    <item>
+      <guid isPermaLink="true">https://mastodon.social/@bastilian/113104055638022583</guid>
+      <link>https://mastodon.social/@bastilian/113104055638022583</link>
+      <pubDate>Sun, 08 Sep 2024 21:28:47 +0000</pubDate>
+      <description>asdasd</description>
+    </item>
+    <item>
+      <guid isPermaLink="true">https://mastodon.social/@bastilian/113086349451351943</guid>
+      <link>https://mastodon.social/@bastilian/113086349451351943</link>
+      <pubDate>Thu, 05 Sep 2024 18:25:52 +0000</pubDate>
+      <description>asdasd</description>
+    </item>
+    <item>
+      <guid isPermaLink="true">https://mastodon.social/@bastilian/113078853191869467</guid>
+      <link>https://mastodon.social/@bastilian/113078853191869467</link>
+      <pubDate>Wed, 04 Sep 2024 10:39:28 +0000</pubDate>
+      <description>&lt;p&gt;nom nom nom.</description>
+    </item>
+    <item>
+      <guid isPermaLink="true">https://mastodon.social/@bastilian/113073040387842240</guid>
+      <link>https://mastodon.social/@bastilian/113073040387842240</link>
+      <pubDate>Tue, 03 Sep 2024 10:01:11 +0000</pubDate>
+      <description>asdasd</description>
+    </item>
+  </channel>
+</rss>

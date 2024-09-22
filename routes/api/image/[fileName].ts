@@ -8,7 +8,8 @@ export const handler: Handlers = {
 
       const { image, mediaType } = await transformImageFromUrlParams(
         reqURL.searchParams,
-        `${reqURL.protocol}//${reqURL.hostname}${reqURL.port ? `:${reqURL.port}` : ``
+        `${reqURL.protocol}//${reqURL.hostname}${
+          reqURL.port ? `:${reqURL.port}` : ``
         }`,
       );
 

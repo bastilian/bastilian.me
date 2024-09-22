@@ -15,6 +15,7 @@ export const handler = (_, ctx) => {
     ...ctx.state,
     ...supabaseClientInstance ? { supabase: supabaseClientInstance } : {},
   };
+  ctx.appConfig = config;
 
   return ctx.next();
 };

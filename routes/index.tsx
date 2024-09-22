@@ -5,12 +5,11 @@ import ActivityFeed from "../components/ActivityFeed/index.tsx";
 import LastFM from "../components/LastFM/index.tsx";
 import Photos from "../components/Photos/index.tsx";
 import Layout from "../components/layouts/Layout.tsx";
-import config from "../_config.ts";
 import fetchFeed from "../services/FeedFetcher.ts";
 
 export const handler: Handlers = {
   async GET(_req: Request, ctx: FreshContext) {
-    const configFeeds = Object.entries(config.feeds);
+    const configFeeds = Object.entries(ctx.appConfig?.feeds);
 
     if (configFeeds.length > 0) {
       const feeds = {};

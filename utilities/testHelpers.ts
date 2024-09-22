@@ -1,6 +1,8 @@
 import { renderToString } from "preact-render-to-string";
 
-export const render = async (routeModule) => {
+const renderComponent = (component) => renderToString(component);
+
+const renderRoute = async (routeModule, ctxAdd) => {
   const { default: page, handler } = routeModule;
   let req;
   let res;
@@ -9,7 +11,18 @@ export const render = async (routeModule) => {
       res = response;
     },
   };
-  await handler.GET(req, ctx);
+  await handler.GET(req, {
+    ...ctx,
+    ...ctxAdd,
+  });
 
-  return renderToString(page({ data: res || {} }));
+  return renderComponent(page({ data: res || {} }));
+};
+
+export const render = async (input, ...rest) => {
+  if (typeof input.handler !== "undefined") {
+    return await renderRoute(...[input, ...rest]);
+  } else {
+    return renderComponent(...[input, ...rest]);
+  }
 };
