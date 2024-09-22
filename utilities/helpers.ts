@@ -18,19 +18,19 @@ export const getFeed = async (feed: string) => {
 export const hash = (string: string) =>
   encodeURI(encodeBase64Url(string)).slice(35, 100);
 
-export const log = (...args) => {
+export const log = (...args: any[]) => {
   if (config.debug) console.log(...args);
 };
 
-export const logWithNamespace = (namespace) => {
+export const logWithNamespace = (namespace: string) => {
   if (Array.isArray(config.debug)) {
-    return (...args) => {
-      if (config.debug.includes(namespace)) {
+    return (...args: any[]) => {
+      if ((config.debug as string[]).includes(namespace)) {
         console.log(namespace, ...args);
       }
     };
   } else {
-    return (...args) => {
+    return (...args: any[]) => {
       if (config.debug) {
         console.log(namespace, ...args);
       }

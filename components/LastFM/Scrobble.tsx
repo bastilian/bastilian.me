@@ -1,6 +1,7 @@
+import type { JSX } from "preact";
 import Image from "../Image.tsx";
 
-const extractMeta = (description) => {
+const extractMeta = (description: string) => {
   const [track, artist] = description.split(" by ");
 
   return [
@@ -9,11 +10,23 @@ const extractMeta = (description) => {
   ];
 };
 
-const Entry = (
-  { description, entry: { content: { value: content } = {} } = {}, ...rest },
-) => {
+type ScrobbleProps = {
+  description: string;
+  entry: {
+    content?: {
+      value?: string;
+    };
+  };
+};
+
+const Scrobble = (
+  {
+    description,
+    entry: { content: { value: content } = {} } = {},
+  }: ScrobbleProps,
+): JSX.Element => {
   const [track, artist] = extractMeta(description);
-  const imageUrl = content?.match(/src=\"(.*)\"/)[1];
+  const imageUrl = content?.match(/src=\"(.*)\"/)?.[1];
 
   return (
     <li>
@@ -33,4 +46,4 @@ const Entry = (
   );
 };
 
-export default Entry;
+export default Scrobble;

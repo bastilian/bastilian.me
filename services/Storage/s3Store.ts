@@ -2,7 +2,7 @@ import { log } from "../../utilities/helpers.ts";
 import { S3Client } from "@bradenmacdonald/s3-lite-client";
 import { join } from "@std/path";
 
-const read = (s3client, path) => async (fileName) => {
+const read = (s3client: any, path: string) => async (fileName: string) => {
   const filePath = join(path, fileName);
 
   try {
@@ -16,28 +16,39 @@ const read = (s3client, path) => async (fileName) => {
   }
 };
 
-const write = (s3client, path) => async (fileName, data) => {
-  const filePath = join(path, fileName);
+const write =
+  (s3client: any, path: string) => async (fileName: string, data: any) => {
+    const filePath = join(path, fileName);
 
-  try {
-    log("Writing to S3", filePath);
-    const put = await s3client.putObject(filePath, data);
-    const get = await read(s3client, "")(filePath);
+    try {
+      log("Writing to S3", filePath);
+      const put = await s3client.putObject(filePath, data);
+      const get = await read(s3client, "")(filePath);
 
-    return put && get;
-  } catch (e) {
-    log("Error writting S3", e.message, filePath);
-    return;
-  }
-};
+      return put && get;
+    } catch (e) {
+      log("Error writting S3", e.message, filePath);
+      return;
+    }
+  };
 
-const inPath = (s3client, path) => ({
+const inPath = (s3client: any, path: string) => ({
   read: read(s3client, path),
   write: write(s3client, path),
 });
 
+type S3StoreInit = {
+  host: string;
+  bucket: string;
+  region: string;
+  accessKey?: string;
+  secretKey?: string;
+  baseDirectory?: string;
+};
+
 export default (
-  { host, bucket, region, accessKey, secretKey, baseDirectory = "" },
+  { host, bucket, region, accessKey, secretKey, baseDirectory = "" }:
+    S3StoreInit,
 ) => {
   log("Using S3", host, bucket);
 
@@ -53,7 +64,7 @@ export default (
 
   return Promise.resolve({
     ...inPath(s3client, baseDirectory),
-    inPath: (path) => {
+    inPath: (path: string) => {
       const fullPath = join(baseDirectory, path);
       log("Creating client for ", fullPath);
       return inPath(s3client, fullPath);

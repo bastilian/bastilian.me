@@ -1,6 +1,6 @@
 import { dirname, fromFileUrl, join } from "@std/path";
 
-export const getStorage = (appRoot) => ({
+export const getStorage = (appRoot: string) => ({
   storage: {
     ...Deno.env.get("LOCAL_STORAGE_DIR")
       ? {
@@ -43,7 +43,7 @@ export const getStorage = (appRoot) => ({
   },
 });
 
-export const getCacheDefaults = (storage) => {
+export const getCacheDefaults = (storage: any) => {
   const storageAvailable = Object.keys(storage.storage).length > 0;
 
   return {

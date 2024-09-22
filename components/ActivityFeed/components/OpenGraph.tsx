@@ -1,11 +1,24 @@
+import type { JSX } from "preact";
 import Image from "../../Image.tsx";
 
 const MAX_TITLE_LENGTH = 45;
 
-const OpenGraph = ({ openGraphData }) => {
+export type OpenGraphData = {
+  "og:title": string;
+  "og:image": string;
+  "og:url": string;
+  "og:site_name": string;
+};
+
+type OpenGraphProps = {
+  openGraphData: OpenGraphData;
+};
+
+const OpenGraph = ({ openGraphData }: OpenGraphProps): JSX.Element => {
   const truncatedTitle = openGraphData["og:title"].length > MAX_TITLE_LENGTH
     ? openGraphData["og:title"].slice(0, MAX_TITLE_LENGTH) + "..."
     : openGraphData["og:title"];
+
   return (
     <a
       className="flex gap-4 w-full mt-2 rounded-md opengraph-content"

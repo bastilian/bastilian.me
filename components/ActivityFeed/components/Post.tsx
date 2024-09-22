@@ -1,9 +1,10 @@
+import type { JSX } from "preact";
 import { unescapeHtml } from "escape";
 import { format } from "@std/datetime";
 import { DOMParser } from "@b-fuze/deno-dom";
 
 import Image from "../../Image.tsx";
-import OpenGraph from "./OpenGraph.tsx";
+import OpenGraph, { OpenGraphData } from "./OpenGraph.tsx";
 
 export const removeLastLink = (entryText = "") => {
   const post = new DOMParser().parseFromString(
@@ -17,9 +18,24 @@ export const removeLastLink = (entryText = "") => {
   return post.body.innerHTML;
 };
 
-const Post = ({ entry, idx }) => {
-  const post = entry.description?.value;
+type PostEntry = {
+  description: {
+    value: string;
+  };
+  openGraphMeta?: OpenGraphData;
+  "media:content"?: [{ url: string }];
+  links: [{ href: string }];
+  published: Date;
+};
+
+type PostProps = {
+  entry: PostEntry;
+};
+
+const Post = ({ entry }: PostProps): JSX.Element => {
+  const post = entry.description.value;
   const postWithoutLastLink = removeLastLink(post);
+
   return (
     <div>
       <div className="activity-post-content">

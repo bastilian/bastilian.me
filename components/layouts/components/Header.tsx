@@ -1,7 +1,7 @@
+import type { JSX } from "preact";
 import { asset } from "$fresh/runtime.ts";
-import Image from "../../Image.tsx";
 
-const Header = (props) => (
+const Header = (props: JSX.HTMLAttributes<HTMLElement> = {}): JSX.Element => (
   <header
     {...props}
   >

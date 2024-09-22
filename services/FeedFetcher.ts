@@ -6,11 +6,16 @@ import { hash, log } from "../utilities/helpers.ts";
 import storage from "./Storage.ts";
 
 const MAX_ENTRIES = 10;
-const store = await storage();
+const store: any = await storage();
 const feedCache = store?.inPath("feeds");
 const openGraphCache = store?.inPath("opengraph");
 
-const fetchCached = async (fetchFunc, url, store, cachKey = "") => {
+const fetchCached = async (
+  fetchFunc: (url: string) => Promise<string | undefined>,
+  url: string,
+  store: any,
+  cachKey: string = "",
+) => {
   if (config.cache?.feeds && store) {
     const hashedUrl = hash(url + cachKey);
     const cachedResult = await store.read(hashedUrl);
@@ -36,7 +41,7 @@ const fetchCached = async (fetchFunc, url, store, cachKey = "") => {
   }
 };
 
-export const extractLastLink = (entryText) => {
+export const extractLastLink = (entryText: string) => {
   const allLinks = new DOMParser().parseFromString(
     unescapeHtml(entryText).toString(),
     "text/html",
@@ -45,10 +50,10 @@ export const extractLastLink = (entryText) => {
   return allLinks?.[allLinks.length - 1]?.getAttribute("href");
 };
 
-const fetchMarkup = async (url) => {
+const fetchMarkup = async (url: string) => {
   log("Fetching", url);
   const res = await fetchCached(
-    async (url) => {
+    async (url: string) => {
       const res = await fetch(url);
       if (res.status === 200) {
         return await res.text();
@@ -66,22 +71,26 @@ const fetchMarkup = async (url) => {
   );
 };
 
-export const fetchOpenGraphMeta = async (url) => {
+export const fetchOpenGraphMeta = async (url: string) => {
   if (url) {
     const ogTags = await fetchMarkup(url);
 
     const og = (ogTags || []).map((
-      entry,
+      entry: any,
     ) => [entry.getAttribute("property"), entry.getAttribute("content")])
-      .reduce((og, [property, value]) => ({ ...og, [property]: value }), {});
+      .reduce(
+        (og: any, [property, value]: any[]) => ({ ...og, [property]: value }),
+        {},
+      );
 
     return Object.keys(og).length > 0 && og;
   }
 };
 
-const appendOpenGraphData = async (entry) => {
-  const contentLink = extractLastLink(entry.description?.value);
-  const openGraphMeta = await fetchOpenGraphMeta(contentLink);
+// TODO use opengraph entry type here
+const appendOpenGraphData = async (entry: any) => {
+  const contentLink = extractLastLink(entry.description.value);
+  const openGraphMeta = contentLink && await fetchOpenGraphMeta(contentLink);
 
   return {
     ...entry,
@@ -100,7 +109,7 @@ export const fetchFeed = async (url: string) => {
   }
 };
 
-export default async (url, numberOfEntries = MAX_ENTRIES) => {
+export default async (url: string, numberOfEntries: number = MAX_ENTRIES) => {
   const cacheKey = (() => {
     const currentDateTime = new Date(Date.now());
 
@@ -116,14 +125,17 @@ export default async (url, numberOfEntries = MAX_ENTRIES) => {
     const feed = fetchedFeed && await parseFeed(fetchedFeed);
 
     const entries = await Promise.all(
-      (feed || {}).entries?.slice(0, numberOfEntries).map(async (entry) => {
-        try {
-          const newEntry = await appendOpenGraphData(entry);
-          return newEntry;
-        } catch {
-          return entry;
-        }
-      }) || [],
+      // TODO use opengraph entry type here
+      (feed || {}).entries?.slice(0, numberOfEntries).map(
+        async (entry: any) => {
+          try {
+            const newEntry = await appendOpenGraphData(entry);
+            return newEntry;
+          } catch {
+            return entry;
+          }
+        },
+      ) || [],
     );
 
     return {

@@ -14,6 +14,6 @@ export default async () => {
   }
 
   if (config.storage.cache) {
-    return await cacheStore(config.storage.cache);
+    return await cacheStore();
   }
 };
