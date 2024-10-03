@@ -1,11 +1,11 @@
-import { describe, it } from "jsr:@std/testing/bdd";
-import { expect } from "jsr:@std/expect";
+import { describe, it } from "@std/testing/bdd";
+import { expect } from "@std/expect";
 import {
   mockFetch,
   mockGlobalFetch,
   resetFetch,
   resetGlobalFetch,
-} from "jsr:@c4spar/mock-fetch";
+} from "@c4spar/mock-fetch";
 import { render } from "../utilities/testHelpers.ts";
 
 import * as home from "./index.tsx";

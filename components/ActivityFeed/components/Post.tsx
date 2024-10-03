@@ -23,8 +23,8 @@ type PostEntry = {
     value: string;
   };
   openGraphMeta?: OpenGraphData;
-  "media:content"?: [{ url: string }];
-  links: [{ href: string }];
+  "media:content"?: { url: string }[];
+  links: { href: string }[];
   published: Date;
 };
 

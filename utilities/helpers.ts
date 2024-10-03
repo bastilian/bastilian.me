@@ -1,5 +1,5 @@
 import { parseFeed } from "@mikaelporttila/rss";
-import { encodeBase64Url } from "jsr:@std/encoding/base64url";
+import { encodeBase64Url } from "@std/encoding/base64url";
 
 import config from "../_config.ts";
 
