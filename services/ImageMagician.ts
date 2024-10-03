@@ -2,7 +2,7 @@ import { join } from "@std/path";
 import config from "../_config.ts";
 import { log } from "../utilities/helpers.ts";
 import { optionsFromParams } from "./ImageMagician/helpers.ts";
-import imageMagick from "./ImageMagician/imageMagick.ts";
+// import imageMagick from "./ImageMagician/imageMagick.ts";
 import imageScript from "./ImageMagician/imageScript.ts";
 import storage from "./Storage.ts";
 
@@ -21,9 +21,9 @@ const cacheImage = async (image, targetFilePath) => {
 };
 
 const transformImage = ({
-  "im": imageMagick,
+  // "im": imageMagick,
   "is": imageScript,
-})[config.imageprocessor];
+})[config.imageprocessor || 'is'];
 
 const fetchRemoteImage = async (url) => {
   const sourceRes = await fetch(url);
