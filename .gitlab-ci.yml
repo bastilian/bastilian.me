@@ -16,13 +16,13 @@ test:
     - deno task test
 
 lint:
-    image:
-      name: denoland/deno:2.2.3
-    stage: test
-    allow_failure: true
-    script:
-      - deno test -q --check --no-run
-      - deno fmt -q --check
+  image:
+    name: denoland/deno:2.2.3
+  stage: test
+  allow_failure: true
+  script:
+    - deno test -q --check --no-run
+    - deno fmt -q --check
 
 dokku-deploy:
   image:
@@ -57,9 +57,9 @@ release_job:
   script:
     - echo "running release_job for $TAG"
   release:
-    tag_name: 'v$CI_COMMIT_SHORT_SHA'
-    description: 'v$CI_COMMIT_SHORT_SHA'
-    ref: '$CI_COMMIT_SHA'
+    tag_name: "v$CI_COMMIT_SHORT_SHA"
+    description: "v$CI_COMMIT_SHORT_SHA"
+    ref: "$CI_COMMIT_SHA"
 
 pages:
   only:

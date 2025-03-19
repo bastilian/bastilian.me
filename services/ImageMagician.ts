@@ -23,7 +23,7 @@ const cacheImage = async (image, targetFilePath) => {
 const transformImage = ({
   // "im": imageMagick,
   "is": imageScript,
-})[config.imageprocessor || 'is'];
+})[config.imageprocessor || "is"];
 
 const fetchRemoteImage = async (url) => {
   const sourceRes = await fetch(url);
