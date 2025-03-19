@@ -8,7 +8,7 @@ import * as $_middleware from "./routes/_middleware.ts";
 import * as $api_image_fileName_ from "./routes/api/image/[fileName].ts";
 import * as $index from "./routes/index.tsx";
 import * as $YouTubeVideo from "./islands/YouTubeVideo.tsx";
-import { type Manifest } from "$fresh/server.ts";
+import type { Manifest } from "$fresh/server.ts";
 
 const manifest = {
   routes: {

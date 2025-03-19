@@ -1,4 +1,4 @@
-/deno.lock
+deno.lock
 /.deno_plugins
 /.image-cache
 /.env
