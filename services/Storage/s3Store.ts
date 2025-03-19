@@ -10,7 +10,7 @@ const read = (s3client: any, path: string) => async (fileName: string) => {
     const res = await s3client.getObject(filePath);
     const buffer = await res.arrayBuffer();
     return new Uint8Array(buffer);
-  } catch (e) {
+  } catch (e: any) {
     log("Error reading S3", e.message, filePath);
     return;
   }
@@ -26,7 +26,7 @@ const write =
       const get = await read(s3client, "")(filePath);
 
       return put && get;
-    } catch (e) {
+    } catch (e: any) {
       log("Error writting S3", e.message, filePath);
       return;
     }

@@ -103,7 +103,7 @@ export const fetchFeed = async (url: string) => {
     log("Fetching and parsing feed:", url);
     const fetchedFeed = await fetch(url);
     return await fetchedFeed.text();
-  } catch (e) {
+  } catch (e: any) {
     log("Error fetching feed", e.message);
     return;
   }
@@ -142,7 +142,7 @@ export default async (url: string, numberOfEntries: number = MAX_ENTRIES) => {
       ...feed,
       entries,
     };
-  } catch (e) {
+  } catch (e: any) {
     log("Error parsing feed: ", e.message);
     return {};
   }
