@@ -10,14 +10,14 @@ variables:
 
 test:
   image:
-    name: denoland/deno:1.46.3
+    name: denoland/deno:2.2.3
   stage: test
   script:
     - deno task test
 
 lint:
     image:
-      name: denoland/deno:1.46.3
+      name: denoland/deno:2.2.3
     stage: test
     allow_failure: true
     script:
@@ -38,7 +38,7 @@ dokku-deploy:
 
 deno-deploy:
   image:
-    name: denoland/deno:1.46.3
+    name: denoland/deno:2.2.3
   stage: deploy
   only:
     - main
@@ -65,7 +65,7 @@ pages:
   only:
     - main
   image:
-    name: denoland/deno:1.46.3
+    name: denoland/deno:2.2.3
   stage: pages
   script:
     - mkdir -p public
