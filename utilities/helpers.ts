@@ -1,5 +1,5 @@
 import { parseFeed } from "@mikaelporttila/rss";
-import { encodeBase64Url } from "@std/encoding/base64url";
+import { encodeBase64 } from "@std/encoding";
 
 import config from "../_config.ts";
 
@@ -16,7 +16,10 @@ export const getFeed = async (feed: string) => {
 };
 
 export const hash = (string: string) =>
-  encodeURI(encodeBase64Url(string)).slice(35, 100);
+  encodeURI(encodeBase64(new TextEncoder().encode(string))).replace(
+    /[^a-zA-Z]/g,
+    "",
+  );
 
 export const log = (...args: any[]) => {
   if (config.debug) console.log(...args);
