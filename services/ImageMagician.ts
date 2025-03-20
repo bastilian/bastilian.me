@@ -2,7 +2,6 @@ import { join } from "@std/path";
 import config from "../_config.ts";
 import { log } from "../utilities/helpers.ts";
 import { optionsFromParams } from "./ImageMagician/helpers.ts";
-// import imageMagick from "./ImageMagician/imageMagick.ts";
 import imageScript from "./ImageMagician/imageScript.ts";
 import storage from "./Storage.ts";
 
@@ -21,7 +20,6 @@ const cacheImage = async (image, targetFilePath) => {
 };
 
 const transformImage = ({
-  // "im": imageMagick,
   "is": imageScript,
 })[config.imageprocessor || "is"];
 
@@ -37,11 +35,13 @@ const getAndCacheImage = async (filePath, url) => {
   if (url.match(/^http[s]?\:/)?.length > 0) {
     log("Fetching original image from ", url);
     const image = await fetchRemoteImage(url);
+
     return await cacheImage(image, filePath);
   } else {
     const imagePath = join(config.staticDirectory, url);
     log("Reading original image from ", imagePath);
     const image = await Deno.readFile(imagePath);
+
     return await cacheImage(image, filePath);
   }
 };
